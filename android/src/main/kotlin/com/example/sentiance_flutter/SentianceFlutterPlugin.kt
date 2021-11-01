@@ -7,7 +7,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.sentiance.PermissionManager
 
 /** SentianceFlutterPlugin */
 class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler {
@@ -25,10 +24,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler {
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } if(call.method=="getPermission"){
-      if (!PermissionManager(this).getNotGrantedPermissions().isEmpty()) {
-          startActivity(Intent(this, PermissionCheckActivity::class.java))
-      }
+    } else if(call.method=="getPermissions"){
+      result.success("permissions")
     }else {
       result.notImplemented()
     }
