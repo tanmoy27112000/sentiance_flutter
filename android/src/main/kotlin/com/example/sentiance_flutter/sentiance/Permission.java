@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Permission {
+ public class Permission {
     private static final String KEY_CAN_SHOW_AGAIN = "can_show_again";
     private static final String KEY_SHOW_RATIONALE = "show_rationale";
 

@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb96506b-70cd-4d5a-bd32-a612bd4e1030" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/Application.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/Permission.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/sentiance_flutter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/sentiance_flutter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +23,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/gytworkz_mac_001/.android/avd/Nexus_5X_API_30.avd]" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -86,5 +100,96 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Sentiance android" />
     <option name="LAST_COMMIT_MESSAGE" value="Sentiance android" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>2</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/Permission.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/Permission.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/Permission.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/sentiance/PermissionCheckActivity.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/sentiance_flutter.dart</url>
+          <line>8</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt</url>
+          <line>49</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt</url>
+          <line>52</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt</url>
+          <line>34</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

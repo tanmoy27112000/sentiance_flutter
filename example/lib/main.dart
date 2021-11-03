@@ -16,8 +16,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var sentianceHelper = const MethodChannel('flutter.sentiance/helper');
-  var platformHelper = const MethodChannel('flutter.native/helper');
+  String _platformVersion = 'Unknown';
+  // var sentianceHelper = const MethodChannel('flutter.sentiance/helper');
+  // var platformHelper = const MethodChannel('flutter.native/helper');
 
   @override
   void initState() {
@@ -27,8 +28,28 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    platformHelper.invokeMethod("getPermissions");
-    sentianceHelper.setMethodCallHandler(_handleMethod);
+    await SentianceFlutter.platformVersion;
+
+    //await platformHelper.invokeMethod("getPermissions");
+    //sentianceHelper.setMethodCallHandler(_handleMethod);
+    // String platformVersion;
+    // // Platform messages may fail, so we use a try/catch PlatformException.
+    // // We also handle the message potentially returning null.
+    // try {
+    //   platformVersion = await SentianceFlutter.platformVersion
+    //        ?? 'Unknown platform version';
+    // } on PlatformException {
+    //   platformVersion = 'Failed to get platform version.';
+    // }
+    //
+    // // If the widget was removed from the tree while the asynchronous platform
+    // // message was in flight, we want to discard the reply rather than calling
+    // // setState to update our non-existent appearance.
+    // if (!mounted) return;
+    //
+    // setState(() {
+    //   _platformVersion = platformVersion;
+    // });
   }
 
 Future<dynamic> _handleMethod(MethodCall call) async {
@@ -42,11 +63,8 @@ Future<dynamic> _handleMethod(MethodCall call) async {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Sentiance plugin'),
-        ),
         body: Center(
-          child: Text('Running on')
+          child: Text('Running on: \n'),
         ),
       ),
     );
