@@ -1,6 +1,7 @@
 package com.example.sentiance_flutter
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
@@ -18,12 +19,24 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import com.sentiance.sdk.InitState
+import com.sentiance.sdk.Sentiance
+import com.sentiance.sdk.Token
+import com.sentiance.sdk.TokenResultCallback
 
 /** FluttertoastPlugin */
 class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var channel : MethodChannel
   private lateinit var activity:Activity
   private lateinit var context: Context
+  private lateinit var sentianceToken : String
+  private val SENTIANCE_SECRET = "591ea03cf8f8410c4d15d8372e2bbbb7e2f6565aeaf8acfbd474357a4db5bfa7782a3aa3d77f5b12a33a84c9de7091bda55cd7379aaa18ba4ebc0b0e5e99e342"//PROD
+
+  private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+      refreshStatus()
+    }
+  }
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.flutterEngine.dartExecutor, "sentiance_flutter")
@@ -40,7 +53,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "") {
+    if (call.method == "enableLocation") {
       Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
       if (!PermissionManager(activity).getNotGrantedPermissions().isEmpty()) {
         val intent = Intent(activity, PermissionCheckActivity::class.java)
@@ -48,13 +61,12 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         startActivity(context,intent, null);
       }
       //result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    } else if(call.method == "getPermissions"){
+    } else if(call.method == "intialiseSdk"){
       if (!PermissionManager(activity).getNotGrantedPermissions().isEmpty()) {
         val intent = Intent(activity, PermissionCheckActivity::class.java)
         intent.flags = FLAG_ACTIVITY_NEW_TASK
         startActivity(context,intent, null);
       }
-
 
 
       var data = call.arguments as HashMap<String, Any>
@@ -63,43 +75,66 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       if(data1["email"]!=null && data1["email"].toString().isNotEmpty()== true){
 
-//        val cache = Cache(activity)
-//
-//        cache.setUserId(data1["email"].toString())
-//        cache.setUserToken(data1["token"].toString())
-//        cache.setAppSecret(SENTIANCE_SECRET)
 
-     //   SentianceWrapper(activity).initializeSentianceSdk()
+        val cache = Cache(activity)
+
+        cache.setUserId(data1["email"].toString())
+        cache.setUserToken(data1["token"].toString())
+        cache.setAppSecret(SENTIANCE_SECRET)
+
+        SentianceWrapper(activity).initializeSentianceSdk()
       }
 
     }else if(call.method == "getSentianceData"){
 
-     // refreshStatus()
+      refreshStatus()
     }else if(call.method == "stopSdk"){
-//      if (Sentiance.getInstance(this).initState == InitState.INITIALIZED) {
-//        SentianceWrapper(this@MainActivity).stopSentianceSdk()
-//        MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Stop", "")
-//
-//      }
+      if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+        SentianceWrapper(context).stopSentianceSdk()
+      //  MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Stop", "")
+
+      }
     }else if(call.method == "startSdk"){
-//      if (Sentiance.getInstance(this).initState == InitState.INITIALIZED) {
-//        SentianceWrapper(this@MainActivity).startSentianceSdk()
-//        MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Start", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
-//      }else{
-//
-//      }
+      if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+        SentianceWrapper(context).startSentianceSdk()
+        // MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Start", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
+      }else{
+
+      }
     }else if(call.method == "statusSdk"){
-//      if (Sentiance.getInstance(this).initState == InitState.INITIALIZED) {
-//        result.success(Sentiance.getInstance(this).sdkStatus.startStatus.name);
-//      }else{
-//        result.success("not initialized");
-//      }
+      if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+        result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name);
+      }else{
+        result.success("not initialized");
+      }
 
     }else {
       result.notImplemented()
     }
 
   }
+
+  fun refreshStatus() {
+    if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+      getToken()
+      //MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Initial", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
+    }
+  }
+
+  //get token
+  private fun getToken() {
+
+    Sentiance.getInstance(context).getUserAccessToken(object : TokenResultCallback {
+      override fun onSuccess(token: Token) {
+        sentianceToken = token.tokenId.toString()
+      }
+
+      override fun onFailure() {
+      }
+    })
+
+  }
+
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)

@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sentiance_flutter/sentiance_flutter.dart';
+
+import 'SentianceDataModel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,57 +19,109 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  // var sentianceHelper = const MethodChannel('flutter.sentiance/helper');
-  // var platformHelper = const MethodChannel('flutter.native/helper');
+  var isLocationEnabled = false;
+   var sentianceHelper = const MethodChannel('flutter.sentiance/helper');
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    _getSentianceData();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    await SentianceFlutter.platformVersion;
-
-    //await platformHelper.invokeMethod("getPermissions");
-    //sentianceHelper.setMethodCallHandler(_handleMethod);
-    // String platformVersion;
-    // // Platform messages may fail, so we use a try/catch PlatformException.
-    // // We also handle the message potentially returning null.
-    // try {
-    //   platformVersion = await SentianceFlutter.platformVersion
-    //        ?? 'Unknown platform version';
-    // } on PlatformException {
-    //   platformVersion = 'Failed to get platform version.';
-    // }
-    //
-    // // If the widget was removed from the tree while the asynchronous platform
-    // // message was in flight, we want to discard the reply rather than calling
-    // // setState to update our non-existent appearance.
-    // if (!mounted) return;
-    //
-    // setState(() {
-    //   _platformVersion = platformVersion;
-    // });
+  _getSentianceData() async {
+   var data = await SentianceFlutter.getSentianceData;
+   print(data);
   }
 
-Future<dynamic> _handleMethod(MethodCall call) async {
-  switch (call.method) {
-    case "SENTIANCE_INTIAL":
-    print(call.arguments);
+  Future<dynamic> _handleMethod(MethodCall call) async {
+    switch (call.method) {
+      case "Sentiance Initial":
+        SentianceDataModel sentianceDataModel =
+        sentianceDataModelFromJson(call.arguments);
+        if (sentianceDataModel.sentianceStatus == "STARTED") {
+          print(sentianceDataModel.toJson());
+          setState(() {
+            isLocationEnabled = true;
+          });
+          print("location enabled true");
+        } else if (sentianceDataModel.sentianceStatus == "NOT_STARTED") {
+          print(sentianceDataModel.toJson());
+          setState(() {
+            isLocationEnabled = false;
+          });
+          await SentianceFlutter.startSentianceSDK;
+
+        } else {
+          setState(() {
+            isLocationEnabled = false;
+          });
+
+        }
+
+        break;
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text('Running on: \n'),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _getPaymentMethodOption(context, "Enable Permissions"),
+          ],
         ),
       ),
+    );
+  }
+
+  // used for the payment option
+  Widget _getPaymentMethodOption(
+      BuildContext context,
+      String paymentName,
+      ) {
+    return Column(
+      children: [
+        ListTile(
+          title: Text(
+            "enable location",
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,),
+          ),
+          trailing: CupertinoSwitch(
+            trackColor: Colors.grey[300], // **INACTIVE STATE COLOR**
+            activeColor: Colors.black, // **ACTIVE STATE COLOR**
+            value: isLocationEnabled,
+            onChanged: (bool value) async {
+
+              if (isLocationEnabled == true) {
+                setState(() {
+                  isLocationEnabled = value;
+                });
+              } else {
+                setState(() {
+                  isLocationEnabled = true;
+                });
+                SentianceDataModel ss = new SentianceDataModel(userId: "", sentianceToken: "", sentianceStatus: "");
+                await SentianceFlutter.initialiseSentiance(ss.toJson());
+
+              }
+
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Divider(
+            color: Colors.blue[500],
+            height: 4,
+          ),
+        )
+      ],
     );
   }
 }
