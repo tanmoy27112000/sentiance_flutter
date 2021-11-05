@@ -27,7 +27,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     private static final String TAG = "SentianceWrapper";
 
-    private static final String APP_ID = "";//PROD
+    private static String APP_ID = "";//PROD
 
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
@@ -45,7 +45,8 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         mCache = new Cache(context);
     }
 
-    public void initializeSentianceSdk () {
+    public void initializeSentianceSdk (String appId) {
+        this.APP_ID = appId;
 
         // In this sample implementation, the user's id and Sentiance secret
         // are stored in a cache after a successful login and Sentiance app secret

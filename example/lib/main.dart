@@ -106,8 +106,7 @@ class _MyAppState extends State<MyApp> {
                 setState(() {
                   isLocationEnabled = true;
                 });
-                SentianceDataModel ss = new SentianceDataModel(userId: "", sentianceToken: "", sentianceStatus: "");
-                await SentianceFlutter.initialiseSentiance(ss.toJson());
+                await SentianceFlutter.initialiseSentiance();// send data  with sentiance secret and app id
 
               }
 

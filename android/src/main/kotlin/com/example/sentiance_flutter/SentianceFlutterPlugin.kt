@@ -79,9 +79,9 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
         cache.setUserId(data1["email"].toString())
         cache.setUserToken(data1["token"].toString())
-        cache.setAppSecret(SENTIANCE_SECRET)
+        cache.setAppSecret(data1["sentiance_secret"].toString())
 
-        SentianceWrapper(activity).initializeSentianceSdk()
+        SentianceWrapper(activity).initializeSentianceSdk("")
       }
 
     }else if(call.method == "getSentianceData"){
