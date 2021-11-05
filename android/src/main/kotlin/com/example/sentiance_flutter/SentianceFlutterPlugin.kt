@@ -30,8 +30,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity:Activity
   private lateinit var context: Context
   private lateinit var sentianceToken : String
-  private val SENTIANCE_SECRET = "591ea03cf8f8410c4d15d8372e2bbbb7e2f6565aeaf8acfbd474357a4db5bfa7782a3aa3d77f5b12a33a84c9de7091bda55cd7379aaa18ba4ebc0b0e5e99e342"//PROD
-
+  private val SENTIANCE_SECRET = "";
   private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
       refreshStatus()

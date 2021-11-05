@@ -27,7 +27,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     private static final String TAG = "SentianceWrapper";
 
-    private static final String APP_ID = "5faab0afcc53bf0700000028";//PROD
+    private static final String APP_ID = "";//PROD
 
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
