@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class SentianceFlutter {
-  static const MethodChannel _channel = const MethodChannel('sentiance_flutter');
-  static const MethodChannel _channel1 = const MethodChannel('flutter.sentiance/helper');
+  static const MethodChannel _channel = MethodChannel('sentiance_flutter');
+  static const MethodChannel _channel1 =
+      MethodChannel('flutter.sentiance/helper');
 
   static Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('intialiseSdk');
@@ -27,9 +28,10 @@ class SentianceFlutter {
   }
 
   static Future<dynamic> get startSentianceSDK async {
-   var startSentiance = await _channel.invokeMethod('startSdk');
+    var startSentiance = await _channel.invokeMethod('startSdk');
     return startSentiance;
   }
+
   static Future<String?> get stopSentianceSDK async {
     var stopSentiance = await _channel.invokeMethod('stopSdk');
     return stopSentiance;

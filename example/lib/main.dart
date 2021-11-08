@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sentiance_flutter/sentiance_flutter.dart';
 
-import 'SentianceDataModel.dart';
-
+//! 1. make a model that needs to be sent to the sentiance
+//! 2. health packet
 void main() {
   runApp(const MyApp());
 }
@@ -20,7 +17,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var isLocationEnabled = false;
-   var sentianceHelper = const MethodChannel('flutter.sentiance/helper');
 
   @override
   void initState() {
@@ -29,37 +25,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   _getSentianceData() async {
-   var data = await SentianceFlutter.getSentianceData;
-   print(data);
-  }
-
-  Future<dynamic> _handleMethod(MethodCall call) async {
-    switch (call.method) {
-      case "Sentiance Initial":
-        SentianceDataModel sentianceDataModel =
-        sentianceDataModelFromJson(call.arguments);
-        if (sentianceDataModel.sentianceStatus == "STARTED") {
-          print(sentianceDataModel.toJson());
-          setState(() {
-            isLocationEnabled = true;
-          });
-          print("location enabled true");
-        } else if (sentianceDataModel.sentianceStatus == "NOT_STARTED") {
-          print(sentianceDataModel.toJson());
-          setState(() {
-            isLocationEnabled = false;
-          });
-          await SentianceFlutter.startSentianceSDK;
-
-        } else {
-          setState(() {
-            isLocationEnabled = false;
-          });
-
-        }
-
-        break;
-    }
+    var data = await SentianceFlutter.getSentianceData;
+    // ignore: avoid_print
+    print(data);
   }
 
   @override
@@ -79,25 +47,25 @@ class _MyAppState extends State<MyApp> {
 
   // used for the payment option
   Widget _getPaymentMethodOption(
-      BuildContext context,
-      String paymentName,
-      ) {
+    BuildContext context,
+    String paymentName,
+  ) {
     return Column(
       children: [
         ListTile(
-          title: Text(
+          title: const Text(
             "enable location",
             style: TextStyle(
-                color: Colors.grey,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,),
+              color: Colors.grey,
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           trailing: CupertinoSwitch(
             trackColor: Colors.grey[300], // **INACTIVE STATE COLOR**
             activeColor: Colors.black, // **ACTIVE STATE COLOR**
             value: isLocationEnabled,
             onChanged: (bool value) async {
-
               if (isLocationEnabled == true) {
                 setState(() {
                   isLocationEnabled = value;
@@ -106,10 +74,12 @@ class _MyAppState extends State<MyApp> {
                 setState(() {
                   isLocationEnabled = true;
                 });
-                await SentianceFlutter.initialiseSentiance();// send data  with sentiance secret and app id
+                await SentianceFlutter.initialiseSentiance({});
+                // await SentianceFlutter.initialiseSentiance(
+                //     {}); // send data  with sentiance secret and app id
 
+                // log(result);
               }
-
             },
           ),
         ),
@@ -124,3 +94,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
+//devSecret:""
+//prodSreSecret:""
