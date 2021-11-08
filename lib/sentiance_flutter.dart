@@ -43,7 +43,7 @@ class SentianceFlutter {
   }
 
   static Future<dynamic> get getSentianceInitial async {
-    var sentianceStatus = await _channel1.invokeMethod('statusSdk');
+    var sentianceStatus = await _channel1.invokeMethod('sentiance_initial');
     return sentianceStatus;
   }
 }

@@ -10,6 +10,7 @@ class Cache {
     private static final String KEY_AUTH_TOKEN = "token";
     private static final String KEY_INITIALIZE = "initialize";
     private static final String KEY_APP_SECRET = "app_secret";
+    private static final String KEY_APP_ID = "app_id";
 
     private Context mContext;
 
@@ -36,6 +37,16 @@ class Cache {
     void setUserToken(String token) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(KEY_AUTH_TOKEN, token).apply();
+    }
+    @Nullable
+    String getAppId() {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_APP_ID, null);
+    }
+
+    void setKeyAppId(String appId) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_APP_ID, appId).apply();
     }
 
     @Nullable
