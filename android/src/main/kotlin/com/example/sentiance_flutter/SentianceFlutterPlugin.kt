@@ -30,7 +30,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity:Activity
   private lateinit var context: Context
   private lateinit var sentianceToken : String
-  private val SENTIANCE_SECRET = "";
+
   private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
       refreshStatus()
@@ -80,8 +80,9 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         cache.setUserId(data1["email"].toString())
         cache.setUserToken(data1["token"].toString())
         cache.setAppSecret(data1["sentiance_secret"].toString())
+        cache.setKeyAppId(data1["app_id"].toString())
 
-        SentianceWrapper(activity).initializeSentianceSdk("")
+        SentianceWrapper(activity).initializeSentianceSdk()
       }
 
     }else if(call.method == "getSentianceData"){
@@ -116,6 +117,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   fun refreshStatus() {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
+     // result.success(SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
       //MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Initial", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
     }
   }
