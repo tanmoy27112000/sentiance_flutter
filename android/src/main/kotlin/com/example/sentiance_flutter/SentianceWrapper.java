@@ -65,7 +65,9 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             return;
         }
 
-
+        Log.e("TAG", "wrapper: "+mCache.getAppId() );
+        Log.e("TAG", "wrapper: "+mCache.getAppSecret() );
+        Log.e("TAG", "wrapper: "+mCache.getUserId() );
 
         // Create the config.
         SdkConfig config = new SdkConfig.Builder(mCache.getAppId(), mCache.getAppSecret(), createNotification())

@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _getSentianceData();
+    // _getSentianceData();
   }
 
   _getSentianceData() async {

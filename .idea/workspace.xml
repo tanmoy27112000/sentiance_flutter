@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb96506b-70cd-4d5a-bd32-a612bd4e1030" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/Cache.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/Cache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/Application.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SdkStatusUpdateHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SdkStatusUpdateHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/context_wrapper.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/sentiance_flutter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/sentiance_flutter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +106,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636099655174</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="wip linking appid">
+      <created>1636374818150</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1636374818150</updated>
+    </task>
+    <task id="LOCAL-00007" summary="wip linking appid">
+      <created>1636374839750</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1636374839751</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -124,7 +145,8 @@
     <MESSAGE value="Sentiance android" />
     <MESSAGE value="Permissions" />
     <MESSAGE value="Completed integration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed integration" />
+    <MESSAGE value="wip linking appid" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip linking appid" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -206,7 +228,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
           <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt</url>
-          <line>35</line>
+          <line>32</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

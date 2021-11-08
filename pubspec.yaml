@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  background_locator:
 
 dev_dependencies:
   flutter_test:

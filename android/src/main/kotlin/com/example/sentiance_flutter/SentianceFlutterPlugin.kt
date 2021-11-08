@@ -77,12 +77,12 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
         val cache = Cache(activity)
 
-        cache.setUserId(data1["email"].toString())
-        cache.setUserToken(data1["token"].toString())
-        cache.setAppSecret(data1["sentiance_secret"].toString())
-        cache.setKeyAppId(data1["app_id"].toString())
-
-        SentianceWrapper(activity).initializeSentianceSdk()
+          cache.setUserId(data1["email"].toString())
+          cache.setUserToken(data1["token"].toString())
+          cache.setAppSecret(data1["sentiance_secret"].toString())
+          cache.setKeyAppId(data1["app_id"].toString())
+        Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
+        SentianceWrapper(context).initializeSentianceSdk()
       }
 
     }else if(call.method == "getSentianceData"){
@@ -92,7 +92,6 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         SentianceWrapper(context).stopSentianceSdk()
       //  MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Stop", "")
-
       }
     }else if(call.method == "startSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
