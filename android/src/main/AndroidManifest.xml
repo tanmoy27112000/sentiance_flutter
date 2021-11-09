@@ -66,6 +66,7 @@
             </intent-filter>
         </activity>
 
+
         <receiver android:name="rekab.app.background_locator.BootBroadcastReceiver"
             android:enabled="true">
             <intent-filter>
@@ -82,18 +83,19 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <activity android:name=".sentiance.PermissionCheckActivity" />
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="${applicationId}.fileProvider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true"-->
-<!--            tools:replace="android:authorities">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/filepath"-->
-<!--                tools:replace="android:resource" />-->
-<!--        </provider>-->
+        <activity android:name=".sentiance.PermissionCheckActivity"
+            android:theme="@style/NormalTheme"/>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepath"
+                tools:replace="android:resource" />
+        </provider>
     </application>
 
 </manifest>

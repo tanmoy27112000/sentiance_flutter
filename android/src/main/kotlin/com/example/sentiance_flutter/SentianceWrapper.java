@@ -6,11 +6,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.multidex.BuildConfig;
+
+import com.sentiance.sdk.InitState;
 import com.sentiance.sdk.MetaUserLinker;
 import com.sentiance.sdk.OnInitCallback;
 import com.sentiance.sdk.OnSdkStatusUpdateHandler;
@@ -20,12 +25,49 @@ import com.sentiance.sdk.SdkStatus;
 import com.sentiance.sdk.Sentiance;
 import com.sentiance.sdk.Token;
 import com.sentiance.sdk.TokenResultCallback;
+import com.sentiance.sdk.TripProfileListener;
+import com.sentiance.sdk.crashdetection.CrashCallback;
+import com.sentiance.sdk.ondevice.TripProfile;
+//import com.sentiance.sdk.ondevicefull.crashdetection.VehicleCrashEvent;
+//import com.sentiance.sdk.ondevicefull.crashdetection.VehicleCrashListener;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.sentiance.sdk.InitState.NOT_INITIALIZED;
+import static com.sentiance.sdk.trip.TripType.ANY;
+import static com.sentiance.sdk.trip.TripType.SDK_TRIP;
 
 public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
+    //PROD
+    private static final String URL = "https://rademo.fleetconnect.io/apinode-ehs/user/link_user";
+    private static final String URL1 = "https://rademo.fleetconnect.io/apinode-ehs/user/update_profile";
+    private static final String CRASH_DETECTION_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/crash";
+    private static final String SDK_STATUS_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/mobile-health";
+
+//DEV
+//    private static final String URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/link_user";
+//    private static final String URL1 = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/update_profile";
+//    private static final String CRASH_DETECTION_URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/crash";
+//    private static final String SDK_STATUS_URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/mobile-health";
+
 
     private static final String TAG = "SentianceWrapper";
+
+    private static final String APP_ID = "5faab0afcc53bf0700000028";//PROD
+    //  private static final String APP_ID = "5faaa10ea972a10600000027";//Dev
 
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
@@ -45,7 +87,6 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     public void initializeSentianceSdk () {
 
-
         // In this sample implementation, the user's id and Sentiance secret
         // are stored in a cache after a successful login and Sentiance app secret
         // retrieval.
@@ -60,24 +101,25 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             // Cannot initialize the SDK since the app secret is missing.
             return;
         }
-        if (mCache.getAppId() == null) {
-            // Cannot initialize the SDK since the app secret is missing.
-            return;
-        }
 
-        Log.e("TAG", "wrapper: "+mCache.getAppId() );
-        Log.e("TAG", "wrapper: "+mCache.getAppSecret() );
-        Log.e("TAG", "wrapper: "+mCache.getUserId() );
+
 
         // Create the config.
-        SdkConfig config = new SdkConfig.Builder(mCache.getAppId(), mCache.getAppSecret(), createNotification())
+        SdkConfig config = new SdkConfig.Builder(APP_ID, mCache.getAppSecret(), createNotification())
                 .setOnSdkStatusUpdateHandler(this)
                 .setMetaUserLinker(this)  // pass your implementation of the linker here
                 .build();
 
         // Initialize the Sentiance SDK.
 //        if(_installId!=""){
-        Sentiance.getInstance(mContext).init(config, this);
+        if(Sentiance.getInstance(mContext).getInitState()== NOT_INITIALIZED){
+            Sentiance.getInstance(mContext).init(config, this);
+           }else{
+            Log.e(TAG, "initializeSentianceSdk: fail" + Sentiance.getInstance(mContext).getInitState());
+
+            //
+        }
+
 //        }
 //        else{
 //            onInitFailure(InitIssue.LINK_FAILED,null);
@@ -96,6 +138,8 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     @Override
     public void onInitSuccess () {
+        printInitSuccessLogStatements();
+
         mCache.setInitialize("initialized");
         // Sentiance SDK was successfully initialized, we can now start it.
 
@@ -140,12 +184,71 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         // The status update is broadcast internally; this is so the other components of the app
         // (specifically MainActivity) can react on this.
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_SDK_STATUS_UPDATED));
+
+        updateToServer(sdkStatus);
+    }
+
+    private void updateToServer(SdkStatus sdkStatus) {
+        OkHttpClient client = new OkHttpClient();
+        SdkStatus sdkstats = sdkStatus;
+
+        String statusbody = "{\"SDKstartStatus\":\"" + sdkstats.startStatus + "\"," +
+                "\"canDetect\":\"" + sdkstats.canDetect + "\"," +
+                "\"isRemoteEnabled\":\""+  sdkstats.isRemoteEnabled+ "\"," +
+                "\"isLocationPermGranted\": \""+  sdkstats.isLocationPermGranted + "\"," +
+                "\"isAccelPresent\":\""+ sdkstats.isAccelPresent + "\"," +
+                "\"isGpsPresent\":\""+sdkstats.isGpsPresent + "\"," +
+                "\"isGyroPresent\":\""+sdkstats.isGyroPresent + "\"," +
+                "\"appVersion\":\"" + BuildConfig.VERSION_CODE+ "\"," +
+                "\"osVersion\":\"" + Build.VERSION.SDK_INT + "\"," +
+                "\"modelName\":\"" + Build.MODEL + "\"," +
+                "\"androidsdkVersion\":\"" + Build.VERSION.RELEASE + "\"," +
+                "\"sdkUserID\":\"" +Sentiance.getInstance(mContext).getUserId()+ "\"," +
+                "\" isGooglePlayServicesMissing \":\""+sdkstats.isGooglePlayServicesMissing + "\"," +
+                "\"isActivityRecognitionPermGranted\":\""+ sdkstats.isActivityRecognitionPermGranted+ "\"," +
+                "\"isAirplaneModeEnabled\":\""+ sdkstats.isAirplaneModeEnabled + "\"," +
+                "\"isLocationAvailable \":\""+sdkstats.isLocationAvailable + "\"," +
+                "\"locationSetting\":\""+ sdkstats.locationSetting.name() + "\"," +
+                "\"BRAND\":\"" + Build.BRAND + "\"," +
+                "\"DEVICE\":\"" + Build.DEVICE + "\"," +
+                "\"MANUFACTURER\":\"" + Build.MANUFACTURER + "\"," +
+                "\"wifiQuotaStatus\":\""+ sdkstats.wifiQuotaStatus + "\"," +
+                "\"mobileQuotaStatus\":\""+sdkstats.mobileQuotaStatus + "\"," +
+                "\"diskQuotaStatus\":\""+ sdkstats.diskQuotaStatus + "\"," +
+                "\"isBatteryOptimizationEnabled\":\""+sdkstats.isBatteryOptimizationEnabled + "\"," +
+                "\"isBatterySavingEnabled\":\""+ sdkstats.isBatterySavingEnabled + "\"," +
+                "\"isBackgroundProcessingRestricted\":\""+ sdkstats.isBackgroundProcessingRestricted + "\"}";
+
+        Log.i(TAG, "SDKstatusbody " + statusbody);
+
+        Request request1 = new Request.Builder()
+                .url(SDK_STATUS_URL)
+                .header("Authorization", getAuthHeader())
+                .post(RequestBody.create(MediaType.parse("application/json"), statusbody))
+                .build();
+
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("fail", e.toString());
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.i("updatedto server", response.body().string());
+
+            }
+
+        });
+
     }
 
     private Notification createNotification () {
         // PendingIntent that will start your application's MainActivity
-        Intent intent = new Intent(mContext, SentianceFlutterPlugin.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+//        Intent intent = new Intent(mContext, SentianceFlutterPlugin.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
         // On Oreo and above, you must create a notification channel
         String channelId = "trips";
@@ -159,9 +262,9 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         return new NotificationCompat.Builder(mContext, channelId)
                 .setContentTitle("Safetyconnect" + " is running")
                 .setContentText("Touch to open.")
-                .setContentIntent(pendingIntent)
+               // .setContentIntent(pendingIntent)
                 .setShowWhen(false)
-                //.setSmallIcon(R.mipmap.ic_launcher)
+               // .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .build();
     }
@@ -170,6 +273,35 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     private void printInitSuccessLogStatements () {
         Log.i(TAG, "Sentiance SDK initialized, version: " + Sentiance.getInstance(mContext).getVersion());
         Log.i(TAG, "Sentiance platform user id for this install: " + Sentiance.getInstance(mContext).getUserId());
+
+        updateToServer(Sentiance.getInstance(mContext).getSdkStatus());
+
+        OkHttpClient client = new OkHttpClient();
+
+        String jsonBody1 = "{\"sentiance_user_id\": \"" + Sentiance.getInstance(mContext).getUserId() + "\"," +
+                " \"install_id\": \"" + _installId + "\"}";
+        Log.i(TAG, "sentiance json " + jsonBody1);
+        Request request1 = new Request.Builder()
+                .url(URL1)
+                .header("Authorization", getAuthHeader())
+                .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody1))
+                .build();
+
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("fail", e.toString());
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.w("res", response.body().string());
+
+            }
+
+        });
 
         Sentiance.getInstance(mContext).getUserAccessToken(new TokenResultCallback() {
             @Override
@@ -189,11 +321,35 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     @Override
     public boolean link (String installId) {
         _installId= installId;
+
+//            initializeSentianceSdk();
+
+
+        String jsonBody = "{\"email\": \"" + mCache.getUserId() + "\", \"install_id\": \"" + installId + "\"}";
+        Request request = new Request.Builder()
+                .url(URL)
+                .header("Authorization", getAuthHeader())
+                .post(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+                .build();
+
+
+        try {
+            Response response = getClient().newCall(request).execute();
+            return response.isSuccessful();
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage() + "\n" + Log.getStackTraceString(e));
+        }
         return false;
     }
 
     private String getAuthHeader() {
         return "Bearer "+ mCache.getUserToken();  // replace with your app's authorization token
+    }
+
+    private OkHttpClient getClient() {
+        return new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
     }
 
 }
