@@ -77,8 +77,8 @@ class _MyAppState extends State<MyApp> {
                 await SentianceFlutter.initialiseSentiance({
 
                   "data": {
-                    "sentiance_secret":"591ea03cf8f8410c4d15d8372e2bbbb7e2f6565aeaf8acfbd474357a4db5bfa7782a3aa3d77f5b12a33a84c9de7091bda55cd7379aaa18ba4ebc0b0e5e99e342",
-                    "app_id":"5faab0afcc53bf0700000028",
+                    "sentiance_secret":"3831007f47033a9c9a90ffa415da1465130e3cec6d974f17fe16e0c6229a00398173509b41c78b4e290323c4cfc415029ed1abbcca1dc70fc58a8ce0a874ef4b",
+                    "app_id":"61409961d07ba10900000277",
 
     "_id": "60b6094da2dc0d26b1105298",
     "role": "driver",
@@ -109,13 +109,14 @@ class _MyAppState extends State<MyApp> {
     "make": "nithin",
     "model": "IoTRL"
     },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGI2MDk0ZGEyZGMwZDI2YjExMDUyOTgiLCJyb2xlIjoiZHJpdmVyIiwiZnVsbG5hbWUiOiJUYW5tb3kgIiwiZW1haWwiOiJ0YW5tb3lrYXJtYWthckBneXR3b3Jrei5jb20iLCJjb250YWN0IjoiNzAzMTkzMjM4MCIsInByb2ZpbGVfaW1hZ2UiOiJodHRwczovL3MzLmFwLXNvdXRoLTEuYW1hem9uYXdzLmNvbS9pb3RybC5pby9kb2N1bWVudHdhbGxldF9mbGVldGNvbm5lY3QvNWZiY2U1MzAxODlhMWE1OWM4OGU4YjNiLzE2MjkyNzk1MzIvNTViNWZiMzYtMmFmZS00YjQzLTljNWEtNmE4NDA4Zjg4NjFjMTI2MTc0NjM2NjcwNTMxNDg2My5qcGciLCJjdXN0b21lciI6IjVmYmNlNTMwMTg5YTFhNTljODhlOGIzYiIsImluY2lkZW50X3JlcG9ydGluZ19lbmFibGVkIjp0cnVlLCJhdHRlbmRhbmNlX3JlcG9ydGluZ19lbmFibGVkIjpmYWxzZSwibG9jYXRpb25fcmVwb3J0aW5nX2VuYWJsZWQiOmZhbHNlLCJrbm93bGVkZ2VfY2VudHJlX2VuYWJsZWQiOnRydWUsIndvcmtvcmRlcl9yZXBvcnRpbmdfZW5hYmxlZCI6ZmFsc2UsImNoZWNrbGlzdF9lbmFibGVkIjpmYWxzZSwiY291bnRyeV9jb2RlIjoiKzkxIiwiZW1lcmdlbmN5X2NvbnRhY3RfZGV0YWlscyI6eyJlbWVyZ2VuY3lfY29udGFjdF9uYW1lIjoiNzAzMTkzMjM4MCIsImVtZXJnZW5jeV9jb250YWN0X251bWJlciI6IjcwMzE5MzIzODAifSwicHJvZmlsZV9kZXRhaWxzIjp7ImlzX3VwZGF0ZWQiOmZhbHNlLCJzZXgiOiIiLCJhZ2UiOiIiLCJleHBlcmllbmNlIjoiIn0sInZlaGljbGVfZGV0YWlscyI6eyJ2ZWhpY2xlX3R5cGUiOiJjYXIiLCJtYWtlIjoibml0aGluIiwibW9kZWwiOiJJb1RSTCJ9LCJpYXQiOjE2MzYzNzE5OTR9.n8HADbYgNGW8xjbAQL1Kc76ham6joOuHfBo-rBb6G7s"
-    }
-    });
-                // await SentianceFlutter.initialiseSentiance(
-                //     {}); // send data  with sentiance secret and app id
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL2RldnNhZmV0Y29ubmVjdC5iMmNsb2dpbi5jb20vNTAzODc0ZjQtNDdjNS00Y2E4LWJjODctMjE1NjljNjI5MTU5L3YyLjAvIiwiZXhwIjoxNjM2NzE3MjAzLCJuYmYiOjE2MzY2MzA4MDMsImF1ZCI6IjVjZWNiZDBlLWFjM2MtNDE4OC04MmQ2LWFiZTMxYmZmNTE3OCIsImlkcCI6IkxvY2FsQWNjb3VudCIsInN1YiI6IjgyZDA0ODU2LTFjNmUtNDQ2Zi1iZWVlLTAzYTQwNGRjOWM5YSIsImdpdmVuX25hbWUiOiJUYW5tb3kiLCJlbWFpbHMiOlsidGFubW95a2FybWFrYXJAZ3l0d29ya3ouY29tIl0sInRmcCI6IkIyQ18xX2xvZ2luIiwiYXpwIjoiNWNlY2JkMGUtYWMzYy00MTg4LTgyZDYtYWJlMzFiZmY1MTc4IiwidmVyIjoiMS4wIiwiaWF0IjoxNjM2NjMwODAzfQ.Vg9J1gpwxeeTu1dYaEvwbAkOwwpzORT2_aER_H5m2O4o36VnYFPhHclJDRglm2Ve35Nf6f7jNq2FfnpWQyBQoYurDFZr2-paicmsXNbmmYJIXtSpzXObBQEFCMxGcDwY5ZH0suC9EjwpPBzV4W-uyRj9twuBZszoSPQn36rFIoOnkffLT7TwHsLqeM5PVR3OMMgWXon6RpVWmFhsrdNBaUoO34GfzIw_DPyO-Rh84s1e1C8ray13kJHxjB6NVb68q87UiwB0BF8oaKesQvg4d389eC2tIr7ceVxXsxncSmFoko3Iw72l4BHFUgCz2pEVF-FAU7z4dhcWHhjvLVKKuw",
+                    //  "
 
-                // log(result);
+                    //// "token_type": "Bearer",
+                    //   "expires_in": "86400",
+                    //   "refresh_token": "eyJraWQiOiJjcGltY29yZV8wOTI1MjAxNSIsInZlciI6IjEuMCIsInppcCI6IkRlZmxhdGUiLCJzZXIiOiIxLjAifQ..tZt8mHeehreEAREL.RTZmkJi0c0AlmGdUJnsq10_9_b9K4V9h0g5Ov7b8y8VOhciBecAvzQ4eV1qlIeAbz_yWjbhubjMz777-aoONmUzpBHwF1PL_l9CtZ9kjla6w9rPZHD9P_u-NAqo_sJn6xH1DIXUs0wxvdPx37HEB9M6YUeTI0dd6TUQWDOOrM6gaEo0N0LMWvh42R8pCXcuczqHMGunnV4zj-S9o_XOAiQCIMPhIvw3AmlTlw6a73XpR3mekvQDsv-q4_yzPkjgBUPAXFfIpB_L4RQ6zOva4FXLUfo7JGDZEjOqaj1WHm-xn17fYQXOJ6qFJi8BimLwkSnp0HYovphUpgOgMHb2IEfm6VlUJ5cfZuwk5pcKMpztucDtNDrJcg9_xu97yjQ1BvomgUZ_aZ9u6JYuNlmJIwAzl7M4Fh3Co21L-u9cEY9l127WpbSGq_cKTzSna_nRb5c8NGmmfk0ZISvmp-ljwsUBMnOajvqkWHampMNbFCPVzd4O-OEJNAhVR0cARgxrzvbW5P3A4031UT1dOy9pk0anfBhxUDbma-qmE6I8PSjcCRZ_LmT-FUbi8GKdNoLWWJbghDFMT828JfHAJBGDqBkmh0IiU0o7ske9jUdHOy69GP55Lo5k_8rq77l3mT-tW9qnLUtevWLxFC-iVAKuSyoE9JKVkFncQ_9s.v-Pneh-BOSO8Ai7YMvB8gg",
+                    //   "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE2MzY3MTcyMDMsIm5iZiI6MTYzNjYzMDgwMywidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9kZXZzYWZldGNvbm5lY3QuYjJjbG9naW4uY29tLzUwMzg3NGY0LTQ3YzUtNGNhOC1iYzg3LTIxNTY5YzYyOTE1OS92Mi4wLyIsInN1YiI6IjgyZDA0ODU2LTFjNmUtNDQ2Zi1iZWVlLTAzYTQwNGRjOWM5YSIsImF1ZCI6IjVjZWNiZDBlLWFjM2MtNDE4OC04MmQ2LWFiZTMxYmZmNTE3OCIsImlhdCI6MTYzNjYzMDgwMywiYXV0aF90aW1lIjoxNjM2NjMwODAzLCJpZHAiOiJMb2NhbEFjY291bnQiLCJnaXZlbl9uYW1lIjoiVGFubW95IiwiZW1haWxzIjpbInRhbm1veWthcm1ha2FyQGd5dHdvcmt6LmNvbSJdLCJ0ZnAiOiJCMkNfMV9sb2dpbiIsImF0X2hhc2giOiJJSkdWdmNmdWo2bWh0Q3RxdVp6NGNnIn0.Wfrc50mIDFZZeVlD7OriBxg6_-KMTrShNZj3KcIfr8di5fi7q09hocDI1acVxjJ2KQX_KiwbiSVxpgZFKgfPe352rAXNi1-TXyN-EW1KhiZ7Njg81v-xzRhpFzD3h46DQgk18EzHrLHkRfcQC75NDADfO1UWsDHiUPZLf93gz6YxXM-4bVraKDuewflb_XbmhaJBW9kBXQqKj7wGIlYbpX-nDq5R4wQD8CcWlMziII6CIYSHKE5dQGTG_xAN6NfaZXkGivH2_FuVc0SljVUf2MPtNJ0HX6C1u-5tW6WqGPcoyb4YpUUTgKeJDRfQPoWsW4l6YqRFRz2lZL6WVbPLSg
+                  }});
               }
             },
           ),

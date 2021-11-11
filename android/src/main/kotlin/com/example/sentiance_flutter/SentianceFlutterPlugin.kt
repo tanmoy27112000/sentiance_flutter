@@ -5,9 +5,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.LifecycleEventObserver
 import com.example.sentiance_flutter.sentiance.PermissionCheckActivity
 import com.example.sentiance_flutter.sentiance.PermissionManager
 
@@ -23,6 +25,7 @@ import com.sentiance.sdk.InitState
 import com.sentiance.sdk.Sentiance
 import com.sentiance.sdk.Token
 import com.sentiance.sdk.TokenResultCallback
+import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
 
 /** FluttertoastPlugin */
 class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -145,7 +148,13 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     onAttachedToActivity(binding)
   }
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    (binding.lifecycle as HiddenLifecycleReference)
+      .lifecycle
+      .addObserver(LifecycleEventObserver { source, event ->
+        Log.e("Activity state: ", event.toString())
+      })
     this.activity = binding.activity
+
   }
   override fun onDetachedFromActivityForConfigChanges() {}
 }

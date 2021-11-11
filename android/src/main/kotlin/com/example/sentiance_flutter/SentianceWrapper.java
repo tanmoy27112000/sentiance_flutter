@@ -52,13 +52,14 @@ import static com.sentiance.sdk.trip.TripType.SDK_TRIP;
 
 public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
     //PROD
+    private static final String NEW_URL = "https://devapi.safetyconnect.io/user/link";
     private static final String URL = "https://rademo.fleetconnect.io/apinode-ehs/user/link_user";
     private static final String URL1 = "https://rademo.fleetconnect.io/apinode-ehs/user/update_profile";
     private static final String CRASH_DETECTION_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/crash";
     private static final String SDK_STATUS_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/mobile-health";
 
 //DEV
-//    private static final String URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/link_user";
+ //  private static final String URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/link_user";
 //    private static final String URL1 = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/update_profile";
 //    private static final String CRASH_DETECTION_URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/crash";
 //    private static final String SDK_STATUS_URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/mobile-health";
@@ -66,8 +67,6 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     private static final String TAG = "SentianceWrapper";
 
-    private static final String APP_ID = "5faab0afcc53bf0700000028";//PROD
-    //  private static final String APP_ID = "5faaa10ea972a10600000027";//Dev
 
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
@@ -86,12 +85,6 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     }
 
     public void initializeSentianceSdk () {
-
-        // In this sample implementation, the user's id and Sentiance secret
-        // are stored in a cache after a successful login and Sentiance app secret
-        // retrieval.
-        // See the LoginActivity.LoginTask class for more details.
-
         if (mCache.getUserId() == null) {
             // Cannot initialize the SDK since the user has not logged in yet.
             return;
@@ -101,29 +94,25 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             // Cannot initialize the SDK since the app secret is missing.
             return;
         }
+        if (mCache.getAppId() == null) {
+            // Cannot initialize the SDK since the app Id is missing.
+            return;
+        }
 
-
-
-        // Create the config.
-        SdkConfig config = new SdkConfig.Builder(APP_ID, mCache.getAppSecret(), createNotification())
+       // Create the config.
+        SdkConfig config = new SdkConfig.Builder(mCache.getAppId(), mCache.getAppSecret(), createNotification())
                 .setOnSdkStatusUpdateHandler(this)
                 .setMetaUserLinker(this)  // pass your implementation of the linker here
                 .build();
 
-        // Initialize the Sentiance SDK.
-//        if(_installId!=""){
         if(Sentiance.getInstance(mContext).getInitState()== NOT_INITIALIZED){
+            Log.e(TAG, "initializeSentianceSdk: " + Sentiance.getInstance(mContext).getInitState());
+
             Sentiance.getInstance(mContext).init(config, this);
            }else{
-            Log.e(TAG, "initializeSentianceSdk: fail" + Sentiance.getInstance(mContext).getInitState());
+            Log.e(TAG, "initializeSentianceSdk: " + Sentiance.getInstance(mContext).getInitState());
 
-            //
         }
-
-//        }
-//        else{
-//            onInitFailure(InitIssue.LINK_FAILED,null);
-//        }
     }
 
     public void stopSentianceSdk () {
@@ -133,7 +122,6 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     public void startSentianceSdk () {
         Sentiance.getInstance(mContext).start(this);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_SDK_STATUS_UPDATED));
-        // Sentiance.getInstance(mContext).invokeDummyVehicleCrash();
     }
 
     @Override
@@ -185,70 +173,13 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         // (specifically MainActivity) can react on this.
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_SDK_STATUS_UPDATED));
 
-        updateToServer(sdkStatus);
     }
 
-    private void updateToServer(SdkStatus sdkStatus) {
-        OkHttpClient client = new OkHttpClient();
-        SdkStatus sdkstats = sdkStatus;
-
-        String statusbody = "{\"SDKstartStatus\":\"" + sdkstats.startStatus + "\"," +
-                "\"canDetect\":\"" + sdkstats.canDetect + "\"," +
-                "\"isRemoteEnabled\":\""+  sdkstats.isRemoteEnabled+ "\"," +
-                "\"isLocationPermGranted\": \""+  sdkstats.isLocationPermGranted + "\"," +
-                "\"isAccelPresent\":\""+ sdkstats.isAccelPresent + "\"," +
-                "\"isGpsPresent\":\""+sdkstats.isGpsPresent + "\"," +
-                "\"isGyroPresent\":\""+sdkstats.isGyroPresent + "\"," +
-                "\"appVersion\":\"" + BuildConfig.VERSION_CODE+ "\"," +
-                "\"osVersion\":\"" + Build.VERSION.SDK_INT + "\"," +
-                "\"modelName\":\"" + Build.MODEL + "\"," +
-                "\"androidsdkVersion\":\"" + Build.VERSION.RELEASE + "\"," +
-                "\"sdkUserID\":\"" +Sentiance.getInstance(mContext).getUserId()+ "\"," +
-                "\" isGooglePlayServicesMissing \":\""+sdkstats.isGooglePlayServicesMissing + "\"," +
-                "\"isActivityRecognitionPermGranted\":\""+ sdkstats.isActivityRecognitionPermGranted+ "\"," +
-                "\"isAirplaneModeEnabled\":\""+ sdkstats.isAirplaneModeEnabled + "\"," +
-                "\"isLocationAvailable \":\""+sdkstats.isLocationAvailable + "\"," +
-                "\"locationSetting\":\""+ sdkstats.locationSetting.name() + "\"," +
-                "\"BRAND\":\"" + Build.BRAND + "\"," +
-                "\"DEVICE\":\"" + Build.DEVICE + "\"," +
-                "\"MANUFACTURER\":\"" + Build.MANUFACTURER + "\"," +
-                "\"wifiQuotaStatus\":\""+ sdkstats.wifiQuotaStatus + "\"," +
-                "\"mobileQuotaStatus\":\""+sdkstats.mobileQuotaStatus + "\"," +
-                "\"diskQuotaStatus\":\""+ sdkstats.diskQuotaStatus + "\"," +
-                "\"isBatteryOptimizationEnabled\":\""+sdkstats.isBatteryOptimizationEnabled + "\"," +
-                "\"isBatterySavingEnabled\":\""+ sdkstats.isBatterySavingEnabled + "\"," +
-                "\"isBackgroundProcessingRestricted\":\""+ sdkstats.isBackgroundProcessingRestricted + "\"}";
-
-        Log.i(TAG, "SDKstatusbody " + statusbody);
-
-        Request request1 = new Request.Builder()
-                .url(SDK_STATUS_URL)
-                .header("Authorization", getAuthHeader())
-                .post(RequestBody.create(MediaType.parse("application/json"), statusbody))
-                .build();
-
-
-        client.newCall(request1).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("fail", e.toString());
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.i("updatedto server", response.body().string());
-
-            }
-
-        });
-
-    }
 
     private Notification createNotification () {
         // PendingIntent that will start your application's MainActivity
-        Intent intent = new Intent(mContext, SentianceFlutterPlugin.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+//        Intent intent = new Intent(mContext, SentianceFlutterPlugin.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
         // On Oreo and above, you must create a notification channel
         String channelId = "trips";
@@ -274,15 +205,14 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         Log.i(TAG, "Sentiance SDK initialized, version: " + Sentiance.getInstance(mContext).getVersion());
         Log.i(TAG, "Sentiance platform user id for this install: " + Sentiance.getInstance(mContext).getUserId());
 
-        updateToServer(Sentiance.getInstance(mContext).getSdkStatus());
-
         OkHttpClient client = new OkHttpClient();
 
         String jsonBody1 = "{\"sentiance_user_id\": \"" + Sentiance.getInstance(mContext).getUserId() + "\"," +
                 " \"install_id\": \"" + _installId + "\"}";
-        Log.i(TAG, "sentiance json " + jsonBody1);
+        Log.e(TAG, "sentiance json " + jsonBody1);
+
         Request request1 = new Request.Builder()
-                .url(URL1)
+                .url(NEW_URL)
                 .header("Authorization", getAuthHeader())
                 .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody1))
                 .build();
@@ -291,13 +221,13 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         client.newCall(request1).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("fail", e.toString());
+                Log.e(TAG, e.toString());
 
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.w("res", response.body().string());
+                Log.w(TAG, response.body().string());
 
             }
 
@@ -322,22 +252,21 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     public boolean link (String installId) {
         _installId= installId;
 
-//            initializeSentianceSdk();
-
-
         String jsonBody = "{\"email\": \"" + mCache.getUserId() + "\", \"install_id\": \"" + installId + "\"}";
         Request request = new Request.Builder()
-                .url(URL)
+                .url(NEW_URL)
                 .header("Authorization", getAuthHeader())
-                .post(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+                .put(RequestBody.create(MediaType.parse("application/json"), jsonBody))
                 .build();
-
+        android.util.Log.e(TAG, "link: "+jsonBody );
+        android.util.Log.e(TAG, "link: "+getAuthHeader() );
 
         try {
             Response response = getClient().newCall(request).execute();
+            Log.e(TAG, "link: "+response );
             return response.isSuccessful();
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage() + "\n" + Log.getStackTraceString(e));
+            Log.e(TAG, e.getMessage()+" failure" + "\n" + Log.getStackTraceString(e));
         }
         return false;
     }

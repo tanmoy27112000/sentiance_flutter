@@ -69,7 +69,7 @@ public class PermissionCheckActivity extends Activity {
 
     private void startMain() {
         finish();
-        startActivity(new Intent(this, SentianceFlutterPlugin.class));
+        //startActivity(new Intent(this, SentianceFlutterPlugin.class));
     }
 }
 
