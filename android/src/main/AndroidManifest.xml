@@ -25,7 +25,7 @@
         android:label="sentiance_flutter_example"
         android:allowBackup="false"
         android:name=".Application"
-        tools:replace="android:allowBackup"
+        tools:replace="android:label"
         tools:ignore="AllowBackup">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
