@@ -121,6 +121,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       getToken()
      // result.success(SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
       //MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Initial", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
+    }else{
+      Log.e("TAG", "refreshStatus: notinittt " )
     }
   }
 
