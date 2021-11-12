@@ -256,6 +256,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         Request request = new Request.Builder()
                 .url(NEW_URL)
                 .put(body)
+                .header("Authorization", getAuthHeader())
                 .addHeader("Content-Type", "application/json")
                 .build();
         Log.e(TAG, "link: "+request );
