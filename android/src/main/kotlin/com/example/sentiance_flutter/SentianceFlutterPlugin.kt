@@ -115,7 +115,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name);
       }else{
-        result.success(InitState.NOT_INITIALIZED);
+        result.success("NOT_INITIALIZED");
       }
 
     }else {
