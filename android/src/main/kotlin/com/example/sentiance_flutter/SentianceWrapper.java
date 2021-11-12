@@ -250,7 +250,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     public boolean link (String installId) {
         _installId= installId;
         Log.e(TAG, "link: "+_installId );
-        String jsonBody = "{ \"install_id\": \"" + installId + "\"}";
+        String jsonBody = "{ \"installId\": \"" + installId + "\"}";
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, jsonBody);
         Request request = new Request.Builder()
