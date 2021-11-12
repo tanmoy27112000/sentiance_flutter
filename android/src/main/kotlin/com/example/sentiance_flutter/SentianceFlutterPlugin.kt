@@ -28,7 +28,6 @@ import com.sentiance.sdk.InitState
 import com.sentiance.sdk.Sentiance
 import com.sentiance.sdk.Token
 import com.sentiance.sdk.TokenResultCallback
-import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
 
 
 /** FluttertoastPlugin */
@@ -163,12 +162,12 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     onAttachedToActivity(binding)
   }
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    (binding.lifecycle as HiddenLifecycleReference)
-      .lifecycle
-      .addObserver(LifecycleEventObserver { source, event ->
-        Log.e("Activity state: ", event.toString())
-       // updateActivityState(event.toString());
-      })
+//    (binding.lifecycle as HiddenLifecycleReference)
+//      .lifecycle
+//      .addObserver(LifecycleEventObserver { source, event ->
+//        Log.e("Activity state: ", event.toString())
+//       // updateActivityState(event.toString());
+//      })
     this.activity = binding.activity
 
   }
