@@ -26,8 +26,16 @@ class _MyAppState extends State<MyApp> {
 
   _getSentianceData() async {
     var data = await SentianceFlutter.getSentianceData;
-    // ignore: avoid_print
-    print(data);
+    print("got data in app"+data);
+    if(data =="STARTED"){
+      setState(() {
+        isLocationEnabled = true;
+      });
+    }else{
+      setState(() {
+        isLocationEnabled = false;
+      });
+    }
   }
 
   @override
@@ -74,8 +82,6 @@ class _MyAppState extends State<MyApp> {
                 setState(() {
                   isLocationEnabled = true;
                 });
-                // var data = await SentianceFlutter.getSentianceData;
-                // print(data);
                 await SentianceFlutter.initialiseSentiance({
                   "data": {
                     "sentiance_secret":"3831007f47033a9c9a90ffa415da1465130e3cec6d974f17fe16e0c6229a00398173509b41c78b4e290323c4cfc415029ed1abbcca1dc70fc58a8ce0a874ef4b",

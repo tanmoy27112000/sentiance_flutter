@@ -29,7 +29,7 @@ import com.sentiance.sdk.Sentiance
 import com.sentiance.sdk.Token
 import com.sentiance.sdk.TokenResultCallback
 import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
-import com.example.sentiance_flutter.SdkStatusUpdateHandler
+
 
 /** FluttertoastPlugin */
 class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -97,6 +97,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }else if(call.method == "getSentianceData"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         refreshStatus()
+       // var data = SentianceDataModel(sentianceUserId:Sentiance.getInstance(context).userId,sentianceStartStatus:Sentiance.getInstance(context).sdkStatus.startStatus.name ,sentianceToken: sentianceToken)
+        result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
       }else{
         result.success(InitState.NOT_INITIALIZED)
       }
@@ -141,6 +143,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       override fun onSuccess(token: Token) {
         sentianceToken = token.tokenId.toString()
         Log.e("TAG", "onSuccess: "+sentianceToken )
+        Log.e("TAG", "onSuccess: "+Sentiance.getInstance(context).userId )
+        Log.e("TAG", "onSuccess: "+Sentiance.getInstance(context).sdkStatus.startStatus.name )
       }
 
       override fun onFailure() {
