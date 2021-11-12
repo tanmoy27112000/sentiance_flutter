@@ -163,22 +163,22 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       .lifecycle
       .addObserver(LifecycleEventObserver { source, event ->
         Log.e("Activity state: ", event.toString())
-        updateActivityState(event.toString());
+       // updateActivityState(event.toString());
       })
     this.activity = binding.activity
 
   }
 
-  private fun updateActivityState(event: String) {
-    when (event) {
-      "ON_RESUME" ->   Log.e("Activity state: resume")  //LocalBroadcastManager.getInstance(context).registerReceiver(statusUpdateReceiver, IntentFilter(SdkStatusUpdateHandler.ACTION_SENTIANCE_STATUS_UPDATE))
-
-      "ON_PAUSE" ->      Log.e("Activity state: pause")//LocalBroadcastManager.getInstance(context).unregisterReceiver(statusUpdateReceiver)
-
-
-      else -> Log.e("TAG", "updateActivityState:  default" )
-    }
-  }
+//  private fun updateActivityState(event: String) {
+//    when (event) {
+//      "ON_RESUME" ->   //Log.e("Activity state: resume")  //LocalBroadcastManager.getInstance(context).registerReceiver(statusUpdateReceiver, IntentFilter(SdkStatusUpdateHandler.ACTION_SENTIANCE_STATUS_UPDATE))
+//
+//      "ON_PAUSE" ->      Log.e("Activity state: pause")//LocalBroadcastManager.getInstance(context).unregisterReceiver(statusUpdateReceiver)
+//
+//
+//      else -> Log.e("TAG", "updateActivityState:  default" )
+//    }
+//  }
 
   override fun onDetachedFromActivityForConfigChanges() {}
 }
