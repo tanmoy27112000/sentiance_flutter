@@ -58,5 +58,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     implementation ('com.sentiance:sdk:4.19.3@aar') { transitive = true }
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    implementation 'com.android.volley:volley:1.2.0'
 
 }

@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.multidex.BuildConfig;
 
-import com.sentiance.sdk.InitState;
 import com.sentiance.sdk.MetaUserLinker;
 import com.sentiance.sdk.OnInitCallback;
 import com.sentiance.sdk.OnSdkStatusUpdateHandler;
@@ -37,18 +36,17 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import static com.sentiance.sdk.InitState.NOT_INITIALIZED;
+import static com.sentiance.sdk.trip.TripType.ANY;
+import static com.sentiance.sdk.trip.TripType.SDK_TRIP;
+
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static com.sentiance.sdk.InitState.NOT_INITIALIZED;
-import static com.sentiance.sdk.trip.TripType.ANY;
-import static com.sentiance.sdk.trip.TripType.SDK_TRIP;
 
 public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
     //PROD
@@ -252,16 +250,15 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     public boolean link (String installId) {
         _installId= installId;
         Log.e(TAG, "link: "+_installId );
-
         String jsonBody = "{ \"install_id\": \"" + installId + "\"}";
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, jsonBody);
         Request request = new Request.Builder()
                 .url(NEW_URL)
-                .header("Authorization", getAuthHeader())
-                .put(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+                .put(body)
+                .addHeader("Content-Type", "application/json")
                 .build();
-        android.util.Log.e(TAG, "link: "+jsonBody );
-        android.util.Log.e(TAG, "link: "+getAuthHeader() );
-
+        Log.e(TAG, "link: "+request );
         try {
             Response response = getClient().newCall(request).execute();
             Log.e(TAG, "link: "+response );
@@ -269,7 +266,27 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         } catch (IOException e) {
             Log.e(TAG, e.getMessage()+" failure" + "\n" + Log.getStackTraceString(e));
         }
-        return true;
+
+
+
+//
+//        String jsonBody = "{ \"install_id\": \"" + installId + "\"}";
+//        Request request = new Request.Builder()
+//                .url(NEW_URL)
+//                .header("Authorization", getAuthHeader())
+//                .put(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+//                .build();
+//        android.util.Log.e(TAG, "link: "+jsonBody );
+//        android.util.Log.e(TAG, "link: "+getAuthHeader() );
+//
+//        try {
+//            Response response = getClient().newCall(request).execute();
+//            Log.e(TAG, "link: "+response );
+//            return response.isSuccessful();
+//        } catch (IOException e) {
+//            Log.e(TAG, e.getMessage()+" failure" + "\n" + Log.getStackTraceString(e));
+//        }
+        return false;
     }
 
     private String getAuthHeader() {
