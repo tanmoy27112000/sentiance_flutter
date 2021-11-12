@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb96506b-70cd-4d5a-bd32-a612bd4e1030" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +137,35 @@
       <option name="project" value="LOCAL" />
       <updated>1636632631455</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="getting status">
+      <created>1636717519983</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1636717519983</updated>
+    </task>
+    <task id="LOCAL-00013" summary="getting status">
+      <created>1636717769197</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1636717769197</updated>
+    </task>
+    <task id="LOCAL-00014" summary="getting status">
+      <created>1636718690618</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1636718690618</updated>
+    </task>
+    <task id="LOCAL-00015" summary="handled all states">
+      <created>1636719257458</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1636719257458</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -167,7 +194,9 @@
     <MESSAGE value="wip linking user" />
     <MESSAGE value="Sentiance flow testing" />
     <MESSAGE value="wip user linking" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip user linking" />
+    <MESSAGE value="getting status" />
+    <MESSAGE value="handled all states" />
+    <option name="LAST_COMMIT_MESSAGE" value="handled all states" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -239,7 +268,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
           <url>file://$PROJECT_DIR$/android/src/main/kotlin/com/example/sentiance_flutter/SentianceFlutterPlugin.kt</url>
-          <line>35</line>
+          <line>34</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
