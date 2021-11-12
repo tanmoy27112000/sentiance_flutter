@@ -99,7 +99,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
        // var data = SentianceDataModel(sentianceUserId:Sentiance.getInstance(context).userId,sentianceStartStatus:Sentiance.getInstance(context).sdkStatus.startStatus.name ,sentianceToken: sentianceToken)
         result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
       }else{
-        result.success(InitState.NOT_INITIALIZED)
+        result.success("NOT_INITIALIZED")
       }
     }else if(call.method == "stopSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
