@@ -5,13 +5,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.content.IntentFilter
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.sentiance_flutter.sentiance.PermissionCheckActivity
 import com.example.sentiance_flutter.sentiance.PermissionManager
+import com.example.sentiance_flutter.model.SentianceDataModel
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -26,6 +29,7 @@ import com.sentiance.sdk.Sentiance
 import com.sentiance.sdk.Token
 import com.sentiance.sdk.TokenResultCallback
 import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference
+import com.example.sentiance_flutter.SdkStatusUpdateHandler
 
 /** FluttertoastPlugin */
 class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -33,6 +37,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity:Activity
   private lateinit var context: Context
   private lateinit var sentianceToken : String
+  private lateinit var sentianceUserId : String
+  private lateinit var sentianceStartStatus : String
 
   private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -89,28 +95,18 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
 
     }else if(call.method == "getSentianceData"){
-
-      refreshStatus()
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
-        result.success("INITIALIZED"
-//          SentainceDataModel(
-//            Sentiance.getInstance(this).userId,
-//            Sentiance.getInstance(this).sdkStatus.startStatus.name,
-//            sentianceToken
-//          ).toJSON()
-        );
+        refreshStatus()
       }else{
-        result.success("nottt init easha")
+        result.success(InitState.NOT_INITIALIZED)
       }
     }else if(call.method == "stopSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         SentianceWrapper(context).stopSentianceSdk()
-      //  MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Stop", "")
       }
     }else if(call.method == "startSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         SentianceWrapper(context).startSentianceSdk()
-        // MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Start", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
       }else{
 
       }
@@ -118,7 +114,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name);
       }else{
-        result.success("not initialized");
+        result.success(InitState.NOT_INITIALIZED);
       }
 
     }else {
@@ -130,7 +126,9 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   fun refreshStatus() {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
-      //MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Initial", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
+      //sentianceUserId= Sentiance.getInstance(context).sdkStatus.diskQuotaStatus//getInstance(context).userId;
+      sentianceStartStatus = Sentiance.getInstance(context).sdkStatus.startStatus.name
+      Log.e("TAG", "refreshStatus: "+ SentainceDataModel(Sentiance.getInstance(context).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
     }else{
       Log.e("TAG", "refreshStatus: notinittt " )
     }
@@ -142,6 +140,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     Sentiance.getInstance(context).getUserAccessToken(object : TokenResultCallback {
       override fun onSuccess(token: Token) {
         sentianceToken = token.tokenId.toString()
+
       }
 
       override fun onFailure() {
@@ -172,8 +171,10 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   private fun updateActivityState(e: String) {
     when (e) {
-      "RESUME" -> Log.e("TAG", "updateActivityState: RESUME " )
-      "PAUSE" ->  Log.e("TAG", "updateActivityState:  PAUSE" )
+      "ON_RESUME" ->    LocalBroadcastManager.getInstance(context).registerReceiver(statusUpdateReceiver, IntentFilter(SdkStatusUpdateHandler.ACTION_SENTIANCE_STATUS_UPDATE))
+
+      "ON_PAUSE" ->     LocalBroadcastManager.getInstance(context).unregisterReceiver(statusUpdateReceiver)
+
 
       else -> Log.e("TAG", "updateActivityState:  default" )
     }
