@@ -89,17 +89,19 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
 
     }else if(call.method == "getSentianceData"){
-     // result.success("get sentiance called")
+
       refreshStatus()
-//      if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
-//        result.success(
+      if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+        result.success("INITIALIZED"
 //          SentainceDataModel(
 //            Sentiance.getInstance(this).userId,
 //            Sentiance.getInstance(this).sdkStatus.startStatus.name,
 //            sentianceToken
 //          ).toJSON()
-//        );
-//      }
+        );
+      }else{
+        result.success("nottt init easha")
+      }
     }else if(call.method == "stopSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         SentianceWrapper(context).stopSentianceSdk()
@@ -162,9 +164,20 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       .lifecycle
       .addObserver(LifecycleEventObserver { source, event ->
         Log.e("Activity state: ", event.toString())
+        updateActivityState(event.toString());
       })
     this.activity = binding.activity
 
   }
+
+  private fun updateActivityState(e: String) {
+    when (e) {
+      "RESUME" -> Log.e("TAG", "updateActivityState: RESUME " )
+      "PAUSE" ->  Log.e("TAG", "updateActivityState:  PAUSE" )
+
+      else -> Log.e("TAG", "updateActivityState:  default" )
+    }
+  }
+
   override fun onDetachedFromActivityForConfigChanges() {}
 }
