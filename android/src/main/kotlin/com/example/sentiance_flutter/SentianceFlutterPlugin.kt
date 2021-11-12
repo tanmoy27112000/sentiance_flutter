@@ -127,8 +127,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
       //sentianceUserId= Sentiance.getInstance(context).sdkStatus.diskQuotaStatus//getInstance(context).userId;
-      sentianceStartStatus = Sentiance.getInstance(context).sdkStatus.startStatus.name
-      Log.e("TAG", "refreshStatus: "+ SentainceDataModel(Sentiance.getInstance(context).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
+     // sentianceStartStatus = Sentiance.getInstance(context).sdkStatus.startStatus.name
+     // Log.e("TAG", "refreshStatus: "+ SentainceDataModel(Sentiance.getInstance(context).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
     }else{
       Log.e("TAG", "refreshStatus: notinittt " )
     }
@@ -140,7 +140,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     Sentiance.getInstance(context).getUserAccessToken(object : TokenResultCallback {
       override fun onSuccess(token: Token) {
         sentianceToken = token.tokenId.toString()
-
+        Log.e("TAG", "onSuccess: "+sentianceToken )
       }
 
       override fun onFailure() {
@@ -169,11 +169,11 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   }
 
-  private fun updateActivityState(e: String) {
-    when (e) {
-      "ON_RESUME" ->    LocalBroadcastManager.getInstance(context).registerReceiver(statusUpdateReceiver, IntentFilter(SdkStatusUpdateHandler.ACTION_SENTIANCE_STATUS_UPDATE))
+  private fun updateActivityState(event: String) {
+    when (event) {
+      "ON_RESUME" ->   Log.e("Activity state: resume")  //LocalBroadcastManager.getInstance(context).registerReceiver(statusUpdateReceiver, IntentFilter(SdkStatusUpdateHandler.ACTION_SENTIANCE_STATUS_UPDATE))
 
-      "ON_PAUSE" ->     LocalBroadcastManager.getInstance(context).unregisterReceiver(statusUpdateReceiver)
+      "ON_PAUSE" ->      Log.e("Activity state: pause")//LocalBroadcastManager.getInstance(context).unregisterReceiver(statusUpdateReceiver)
 
 
       else -> Log.e("TAG", "updateActivityState:  default" )
