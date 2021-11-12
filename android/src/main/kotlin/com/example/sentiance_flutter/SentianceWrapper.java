@@ -252,23 +252,23 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     public boolean link (String installId) {
         _installId= installId;
 
-        String jsonBody = "{\"email\": \"" + mCache.getUserId() + "\", \"install_id\": \"" + installId + "\"}";
-        Request request = new Request.Builder()
-                .url(NEW_URL)
-                .header("Authorization", getAuthHeader())
-                .put(RequestBody.create(MediaType.parse("application/json"), jsonBody))
-                .build();
-        android.util.Log.e(TAG, "link: "+jsonBody );
-        android.util.Log.e(TAG, "link: "+getAuthHeader() );
-
-        try {
-            Response response = getClient().newCall(request).execute();
-            Log.e(TAG, "link: "+response );
-            return response.isSuccessful();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage()+" failure" + "\n" + Log.getStackTraceString(e));
-        }
-        return false;
+//        String jsonBody = "{ \"install_id\": \"" + installId + "\"}";
+//        Request request = new Request.Builder()
+//                .url(NEW_URL)
+//                .header("Authorization", getAuthHeader())
+//                .put(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+//                .build();
+//        android.util.Log.e(TAG, "link: "+jsonBody );
+//        android.util.Log.e(TAG, "link: "+getAuthHeader() );
+//
+//        try {
+//            Response response = getClient().newCall(request).execute();
+//            Log.e(TAG, "link: "+response );
+//            return response.isSuccessful();
+//        } catch (IOException e) {
+//            Log.e(TAG, e.getMessage()+" failure" + "\n" + Log.getStackTraceString(e));
+//        }
+        return true;
     }
 
     private String getAuthHeader() {

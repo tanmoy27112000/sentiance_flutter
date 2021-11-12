@@ -89,8 +89,17 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
 
     }else if(call.method == "getSentianceData"){
-
+     // result.success("get sentiance called")
       refreshStatus()
+//      if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+//        result.success(
+//          SentainceDataModel(
+//            Sentiance.getInstance(this).userId,
+//            Sentiance.getInstance(this).sdkStatus.startStatus.name,
+//            sentianceToken
+//          ).toJSON()
+//        );
+//      }
     }else if(call.method == "stopSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         SentianceWrapper(context).stopSentianceSdk()
@@ -119,7 +128,6 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   fun refreshStatus() {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
-     // result.success(SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
       //MethodChannel(flutterEngine?.dartExecutor?.binaryMessenger, CHANNEL1).invokeMethod("Sentiance Initial", SentainceDataModel(Sentiance.getInstance(this).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON())
     }else{
       Log.e("TAG", "refreshStatus: notinittt " )
