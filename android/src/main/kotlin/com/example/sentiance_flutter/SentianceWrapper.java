@@ -271,7 +271,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     }
 
     private String getAuthHeader() {
-        return "Bearer "+ mCache.getUserToken();  // replace with your app's authorization token
+        return  mCache.getUserToken();  // replace with your app's authorization token
     }
 
     private OkHttpClient getClient() {
