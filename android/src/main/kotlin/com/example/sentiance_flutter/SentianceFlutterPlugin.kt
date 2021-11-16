@@ -127,7 +127,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   fun refreshStatus() {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
-      //sentianceUserId= Sentiance.getInstance(context).sdkStatus.diskQuotaStatus//getInstance(context).userId;
+      //sentianceUserId= Sentiance.getInstance(context)!.userId;
      // sentianceStartStatus = Sentiance.getInstance(context).sdkStatus.startStatus.name
      // Log.e("TAG", "refreshStatus: "+ SentainceDataModel(Sentiance.getInstance(context).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
     }else{
