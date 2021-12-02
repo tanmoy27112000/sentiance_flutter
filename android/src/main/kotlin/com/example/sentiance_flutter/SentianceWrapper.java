@@ -50,11 +50,11 @@ import okhttp3.Response;
 
 public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
     //PROD
-    private static final String NEW_URL = "https://devmobileapi.safetyconnect.io/user/link";
+    private static final String NEW_URL = "https://mobileapi.safetyconnect.io/user/link";
     private static final String URL = "https://rademo.fleetconnect.io/apinode-ehs/user/link_user";
     private static final String URL1 = "https://rademo.fleetconnect.io/apinode-ehs/user/update_profile";
     private static final String CRASH_DETECTION_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/crash";
-    private static final String SDK_STATUS_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/mobile-health";
+    private static final String SDK_STATUS_URL = "https://mobileapi.safetyconnect.io/user/mobile-health";
 
 //DEV
  //  private static final String URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/link_user";
