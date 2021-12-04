@@ -11,11 +11,23 @@ class Cache {
     private static final String KEY_INITIALIZE = "initialize";
     private static final String KEY_APP_SECRET = "app_secret";
     private static final String KEY_APP_ID = "app_id";
+    private static final String KEY_USER_LINK_URL = "user_link_url";
 
     private Context mContext;
 
     Cache(Context context) {
         mContext = context;
+    }
+
+    @Nullable
+    String getKeyUserLinkUrl() {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_USER_LINK_URL, null);
+    }
+
+    void setKeyUserLinkUrl(String url) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_USER_LINK_URL, url).apply();
     }
 
     @Nullable

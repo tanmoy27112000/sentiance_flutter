@@ -96,6 +96,10 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             // Cannot initialize the SDK since the app Id is missing.
             return;
         }
+        if (mCache.getKeyUserLinkUrl() == null) {
+            // Cannot initialize the SDK since the app Id is missing.
+            return;
+        }
 
        // Create the config.
         SdkConfig config = new SdkConfig.Builder(mCache.getAppId(), mCache.getAppSecret(), createNotification())
@@ -254,7 +258,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, jsonBody);
         Request request = new Request.Builder()
-                .url(NEW_URL)
+                .url(mCache.getKeyUserLinkUrl())
                 .put(body)
                 .header("Authorization", getAuthHeader())
                 .addHeader("Content-Type", "application/json")

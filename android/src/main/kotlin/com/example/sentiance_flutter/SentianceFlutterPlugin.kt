@@ -86,7 +86,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           cache.setUserToken(data1["token"].toString())
           cache.setAppSecret(data1["sentiance_secret"].toString())
           cache.setKeyAppId(data1["app_id"].toString())
-        // Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
+          cache.setKeyUserLinkUrl(data1["user_link_url"].toString())
         SentianceWrapper(context).initializeSentianceSdk()
       }
 
