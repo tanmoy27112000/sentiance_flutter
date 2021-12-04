@@ -15,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.sentiance_flutter.sentiance.PermissionCheckActivity
 import com.example.sentiance_flutter.sentiance.PermissionManager
 import com.example.sentiance_flutter.model.SentianceDataModel
+import com.sentiance.sdk.*
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -24,10 +25,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import com.sentiance.sdk.InitState
-import com.sentiance.sdk.Sentiance
-import com.sentiance.sdk.Token
-import com.sentiance.sdk.TokenResultCallback
 
 
 /** FluttertoastPlugin */
@@ -113,7 +110,9 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
     }else if(call.method == "statusSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
-        result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name);
+        if(Sentiance.getInstance(context).sdkStatus == SdkStatus.StartStatus.STARTED){
+          result.success(Sentiance.getInstance(context).sdkStatus);
+        }
       }else{
         result.success("NOT_INITIALIZED");
       }
