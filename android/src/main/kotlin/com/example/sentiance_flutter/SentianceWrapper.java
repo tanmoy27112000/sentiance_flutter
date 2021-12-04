@@ -258,7 +258,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, jsonBody);
         Request request = new Request.Builder()
-                .url(mCache.getKeyUserLinkUrl())
+                .url(NEW_URL)//mCache.getKeyUserLinkUrl())
                 .put(body)
                 .header("Authorization", getAuthHeader())
                 .addHeader("Content-Type", "application/json")
