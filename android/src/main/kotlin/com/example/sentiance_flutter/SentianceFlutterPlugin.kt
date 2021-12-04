@@ -58,7 +58,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "enableLocation") {
-      Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
+      // Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
       if (!PermissionManager(activity).getNotGrantedPermissions().isEmpty()) {
         val intent = Intent(activity, PermissionCheckActivity::class.java)
         intent.flags = FLAG_ACTIVITY_NEW_TASK
@@ -86,7 +86,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           cache.setUserToken(data1["token"].toString())
           cache.setAppSecret(data1["sentiance_secret"].toString())
           cache.setKeyAppId(data1["app_id"].toString())
-        Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
+        // Toast.makeText(activity,"Hello!",Toast.LENGTH_SHORT).show()
         SentianceWrapper(context).initializeSentianceSdk()
       }
 
