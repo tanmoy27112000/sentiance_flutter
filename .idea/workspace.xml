@@ -185,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638626216006</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="added user linking url">
+      <created>1638858614241</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1638858614241</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -218,7 +225,8 @@
     <MESSAGE value="handled all states" />
     <MESSAGE value="removed launcher" />
     <MESSAGE value="added status" />
-    <option name="LAST_COMMIT_MESSAGE" value="added status" />
+    <MESSAGE value="added user linking url" />
+    <option name="LAST_COMMIT_MESSAGE" value="added user linking url" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
