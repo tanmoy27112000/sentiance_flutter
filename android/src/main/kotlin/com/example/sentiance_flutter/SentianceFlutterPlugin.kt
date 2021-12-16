@@ -15,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.sentiance_flutter.sentiance.PermissionCheckActivity
 import com.example.sentiance_flutter.sentiance.PermissionManager
 import com.example.sentiance_flutter.model.SentianceDataModel
+import com.example.sentiance_flutter.model.SentianceDataStatus
 import com.sentiance.sdk.*
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -35,6 +36,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var sentianceToken : String
   private lateinit var sentianceUserId : String
   private lateinit var sentianceStartStatus : String
+  private lateinit var sentiancedataStatus : SentianceDataStatus
 
   private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -111,9 +113,17 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }else if(call.method == "statusSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         if(Sentiance.getInstance(context).sdkStatus == SdkStatus.StartStatus.STARTED){
-          result.success(Sentiance.getInstance(context));
+          var data = Sentiance.getInstance(context).sdkStatus;
+          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name, sentianceToken,
+            data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
+            data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
+            data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
+            data.isBatteryOptimizationEnabled, data.isBatterySavingEnabled,
+            data.isBackgroundProcessingRestricted
+          )
+         result.success(sentiancedataStatus);
         }else{
-          result.success(Sentiance.getInstance(context));
+          result.success(Sentiance.getInstance(context).sdkStatus);
         }
       }else{
         result.success("NOT_INITIALIZED");
