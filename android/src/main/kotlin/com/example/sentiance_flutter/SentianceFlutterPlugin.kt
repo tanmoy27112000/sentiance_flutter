@@ -112,8 +112,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
     }else if(call.method == "statusSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+        var data = Sentiance.getInstance(context).sdkStatus;
         if(Sentiance.getInstance(context).sdkStatus == SdkStatus.StartStatus.STARTED){
-          var data = Sentiance.getInstance(context).sdkStatus;
           sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name, sentianceToken,
             data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
             data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
@@ -123,7 +123,14 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           )
          result.success(sentiancedataStatus);
         }else{
-          result.success(Sentiance.getInstance(context).sdkStatus);
+          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name, sentianceToken,
+            data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
+            data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
+            data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
+            data.isBatteryOptimizationEnabled, data.isBatterySavingEnabled,
+            data.isBackgroundProcessingRestricted
+          )
+          result.success(sentiancedataStatus);
         }
       }else{
         result.success("NOT_INITIALIZED");
