@@ -36,7 +36,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var sentianceToken : String
   private lateinit var sentianceUserId : String
   private lateinit var sentianceStartStatus : String
-  private lateinit var sentiancedataStatus : SentianceDataStatus
+  private lateinit var sentiancedataStatus : Map<String, Object>
 
   private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -114,23 +114,21 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         var data = Sentiance.getInstance(context).sdkStatus;
         if(Sentiance.getInstance(context).sdkStatus == SdkStatus.StartStatus.STARTED){
-          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
+          result.success(SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
             data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
             data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
             data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
             data.isBatteryOptimizationEnabled, data.isBatterySavingEnabled,
             data.isBackgroundProcessingRestricted
-          )
-         result.success(sentiancedataStatus);
+          ).toJSON());
         }else{
-          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
+          result.success(SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
             data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
             data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
             data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
             data.isBatteryOptimizationEnabled, data.isBatterySavingEnabled,
             data.isBackgroundProcessingRestricted
-          )
-          result.success(sentiancedataStatus);
+          ).toJSON());
         }
       }else{
         result.success("NOT_INITIALIZED");
