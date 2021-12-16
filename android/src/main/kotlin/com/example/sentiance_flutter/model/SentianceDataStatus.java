@@ -7,7 +7,6 @@ public class SentianceDataStatus {
 
     String userId;
     String sentianceStatus;
-    String sentianceToken;
     boolean canDetect;
     boolean isRemoteEnabled;
     boolean isLocationPermGranted;
@@ -24,7 +23,6 @@ public class SentianceDataStatus {
 
     public SentianceDataStatus(String userId,
                                String sentianceStatus,
-                               String sentianceToken,
                                boolean canDetect,
                                boolean isRemoteEnabled,
                                boolean isLocationPermGranted,
@@ -39,7 +37,6 @@ public class SentianceDataStatus {
                                boolean isBatterySavingEnabled,
                                boolean isBackgroundProcessingRestricted) {
         this.userId = userId;
-        this.sentianceToken = sentianceToken;
         this.sentianceStatus = sentianceStatus;
         this.canDetect = canDetect;
         this.isRemoteEnabled = isRemoteEnabled;
@@ -62,7 +59,6 @@ public class SentianceDataStatus {
         try {
 
             jsonObject.put("userId", userId);
-            jsonObject.put("sentianceToken", sentianceToken);
             jsonObject.put("sentianceStatus", sentianceStatus);
             jsonObject.put("canDetect" , canDetect);
             jsonObject.put("isRemoteEnabled" , isRemoteEnabled);

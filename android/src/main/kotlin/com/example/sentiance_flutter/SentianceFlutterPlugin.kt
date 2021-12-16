@@ -114,7 +114,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         var data = Sentiance.getInstance(context).sdkStatus;
         if(Sentiance.getInstance(context).sdkStatus == SdkStatus.StartStatus.STARTED){
-          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name, sentianceToken,
+          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
             data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
             data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
             data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
@@ -123,7 +123,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           )
          result.success(sentiancedataStatus);
         }else{
-          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name, sentianceToken,
+          sentiancedataStatus = SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
             data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
             data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
             data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
