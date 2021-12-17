@@ -12,6 +12,9 @@ import com.sentiance.sdk.InitState;
 import com.sentiance.sdk.SdkStatus;
 import com.sentiance.sdk.Sentiance;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -29,12 +32,10 @@ public class MyAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mCache = new Cache(context);
-
-        Log.e("TAG", "onReceive: hello receiverrrr" + mCache.getUserId());
+        Log.e("TAG", "onReceive: " + mCache.getUserId());
 
         if (Sentiance.getInstance(context).getInitState() == InitState.INITIALIZED)  {
             updateToServer(context,Sentiance.getInstance(context).getSdkStatus());
-
         }else{
             Log.e("TAG", "onReceive: sdk not initialized" + Sentiance.getInstance(context).getInitState());
         }
@@ -46,70 +47,62 @@ public class MyAlarmReceiver extends BroadcastReceiver {
         OkHttpClient client = new OkHttpClient();
         SdkStatus sdkstats = sdkStatus;
 
-        String statusbody = "{" +
-                "\" isGooglePlayServicesMissing \":\""+sdkstats.isGooglePlayServicesMissing + "\"," +
-                "\"BRAND\":\"" + Build.BRAND + "\"," +
-                "\"DEVICE\":\"" + Build.DEVICE + "\"," +
-                "\"MANUFACTURER\":\"" + Build.MANUFACTURER + "\"," +
-                "\"SDKstartStatus\":\"" + sdkstats.startStatus + "\"," +
-                "\"androidsdkVersion\":\"" + Build.VERSION.RELEASE + "\"," +
-                "\"appVersion\":\"" + BuildConfig.VERSION_NAME+ "\"," +
-                "\"canDetect\":\"" + sdkstats.canDetect + "\"," +
-                "\"diskQuotaStatus\":\""+ sdkstats.diskQuotaStatus + "\"," +
-                "\"isAccelPresent\":\""+ sdkstats.isAccelPresent + "\"," +
-                "\"isActivityRecognitionPermGranted\":\""+ sdkstats.isActivityRecognitionPermGranted+ "\"," +
-                "\"isAirplaneModeEnabled\":\""+ sdkstats.isAirplaneModeEnabled + "\"," +
-                "\"isBackgroundProcessingRestricted\":\""+ sdkstats.isBackgroundProcessingRestricted +
-                "\"isBatteryOptimizationEnabled\":\""+sdkstats.isBatteryOptimizationEnabled + "\"," +
-                "\"isBatterySavingEnabled\":\""+ sdkstats.isBatterySavingEnabled + "\"," +
-                "\"isGpsPresent\":\""+sdkstats.isGpsPresent + "\"," +
-                "\"isGyroPresent\":\""+sdkstats.isGyroPresent + "\"," +
-                "\"isLocationAvailable \":\""+sdkstats.isLocationAvailable + "\"," +
-                "\"isLocationPermGranted\": \""+  sdkstats.isLocationPermGranted + "\"," +
-                "\"isRemoteEnabled\":\""+  sdkstats.isRemoteEnabled+ "\"," +
-                "\"locationSetting\":\""+ sdkstats.locationSetting.name() + "\"," +
-                "\"mobileQuotaStatus\":\""+sdkstats.mobileQuotaStatus + "\"," +
-                "\"wifiQuotaStatus\":\""+ sdkstats.wifiQuotaStatus + "\"," +
-                "\"modelName\":\"" + Build.MODEL + "\"," +
-                "\"osVersion\":\"" + Build.VERSION.SDK_INT + "\"," +
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("isGooglePlayServicesMissing", sdkstats.isGooglePlayServicesMissing );
+            jsonObject.put("BRAND", Build.BRAND );
+            jsonObject.put("DEVICE", Build.DEVICE );
+            jsonObject.put("MANUFACTURER", Build.MANUFACTURER );
+            jsonObject.put("SDKstartStatus", sdkstats.startStatus );
+            jsonObject.put("androidsdkVersion", Build.VERSION.RELEASE );
+            jsonObject.put("appVersion", BuildConfig.VERSION_NAME );
+            jsonObject.put("canDetect", sdkstats.canDetect );
+            jsonObject.put("diskQuotaStatus", sdkstats.diskQuotaStatus );
+            jsonObject.put("isAccelPresent", sdkstats.isAccelPresent );
+            jsonObject.put("isActivityRecognitionPermGranted", sdkstats.isActivityRecognitionPermGranted );
+            jsonObject.put("isAirplaneModeEnabled", sdkstats.isAirplaneModeEnabled );
+            jsonObject.put("isBackgroundProcessingRestricted", sdkstats.isBackgroundProcessingRestricted );
+            jsonObject.put("isBatteryOptimizationEnabled", sdkstats.isBatteryOptimizationEnabled );
+            jsonObject.put("isBatterySavingEnabled", sdkstats.isBatterySavingEnabled );
+            jsonObject.put("isGpsPresent", sdkstats.isGpsPresent );
+            jsonObject.put("isGyroPresent", sdkstats.isGyroPresent );
+            jsonObject.put("isLocationAvailable", sdkstats.isLocationAvailable );
+            jsonObject.put("isLocationPermGranted", sdkstats.isLocationPermGranted );
+            jsonObject.put("isRemoteEnabled", sdkstats.isRemoteEnabled );
+            jsonObject.put("locationSetting", sdkstats.locationSetting );
+            jsonObject.put("mobileQuotaStatus", sdkstats.mobileQuotaStatus );
+            jsonObject.put("modelName", Build.MODEL );
+            jsonObject.put("osVersion", Build.VERSION.SDK_INT);
+            jsonObject.put("install_id", mCache.getInstallId() );
+            jsonObject.put("sentiance_user_id", mCache.getInstallId() );
+            jsonObject.put("sdkUserID", mCache.getUserId() );
+            jsonObject.put("wifiQuotaStatus", sdkstats.wifiQuotaStatus );
 
-                "\"sdk\":" +
-                "{" +
-                "\"install_id\":\""+ mCache.getInstallId() +"\"," +
-                "\"sentiance_user_id\":\""+ Sentiance.getInstance(context).getUserId() +"\"" +
-                "}," +
-                "\"sdkUserID\":\"" +Sentiance.getInstance(context).getUserId()+ "\"," +
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-                "\"}";
-
-        Log.i("TAG", "Receiver" + statusbody);
+        Log.i("TAG", "Receiver" + jsonObject);
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
 
         Request request1 = new Request.Builder()
                 .url(SDK_STATUS_URL)
-                .header("Authorization", getAuthHeader())
-                .post(RequestBody.create(MediaType.parse("application/json"), statusbody))
+                .header("Authorization", mCache.getUserToken())
+                .post(body)
                 .build();
-
 
         client.newCall(request1).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i("fail", e.toString());
-
+                Log.e("fail", e.toString());
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i("updated mobile api", response.body().string());
-
+                Log.e("updated mobile api", response.body().string());
             }
-
         });
 
-    }
-
-    private String getAuthHeader() {
-        return "Bearer "+ mCache.getUserToken();  // replace with your app's authorization token
     }
 
 }

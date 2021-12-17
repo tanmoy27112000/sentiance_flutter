@@ -33,9 +33,6 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity:Activity
   private lateinit var context: Context
   private lateinit var sentianceToken : String
-  private lateinit var sentianceUserId : String
-  private lateinit var sentianceStartStatus : String
-  private lateinit var sentiancedataStatus : Map<String, Object>
 
   private val statusUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -94,7 +91,6 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }else if(call.method == "getSentianceData"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         refreshStatus()
-       // var data = SentianceDataModel(sentianceUserId:Sentiance.getInstance(context).userId,sentianceStartStatus:Sentiance.getInstance(context).sdkStatus.startStatus.name ,sentianceToken: sentianceToken)
         result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
       }else{
         result.success("NOT_INITIALIZED")
@@ -143,11 +139,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
       updateDataToApi();
-      //sentianceUserId= Sentiance.getInstance(context)!.userId;
-     // sentianceStartStatus = Sentiance.getInstance(context).sdkStatus.startStatus.name
-     // Log.e("TAG", "refreshStatus: "+ SentainceDataModel(Sentiance.getInstance(context).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
-    }else{
-      Log.e("TAG", "refreshStatus: notinittt " )
+     }else{
+      Log.e("TAG", "refreshStatus: NOT_INITIALIZED " )
     }
   }
 
@@ -158,8 +151,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     val pendingIntent = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
     if (Build.VERSION.SDK_INT >= 19){
-      alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60*1000, pendingIntent);
-      Log.e("TAG", "onCreate: "+ Build.VERSION.SDK_INT);
+      alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60*60*1000, pendingIntent);
+      Log.e("TAG", "onCreate: ");
     }else{
       alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
     }
@@ -173,7 +166,6 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         sentianceToken = token.tokenId.toString()
         Log.e("TAG", "onSuccess: "+sentianceToken )
         Log.e("TAG", "onSuccess: "+Sentiance.getInstance(context).userId )
-        Log.e("TAG", "onSuccess: "+Sentiance.getInstance(context).sdkStatus.startStatus.name )
       }
 
       override fun onFailure() {

@@ -312,7 +312,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         Request request = new Request.Builder()
                 .url(mCache.getKeyUserLinkUrl())
                 .put(body)
-                .header("Authorization", getAuthHeader())
+                .header("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjliOWI5OTc4LWQxNjEtNDNmNy1hOTU0LWU4OTMyY2I2ZGUzZSIsImlhdCI6MTYzOTc0MTA1NH0.u1l3IepNccpaOA-I_9wLyuZZI8vMxx5cnVL6GgmZ3VY")
                 .addHeader("Content-Type", "application/json")
                 .build();
         Log.e(TAG, "link: "+request );

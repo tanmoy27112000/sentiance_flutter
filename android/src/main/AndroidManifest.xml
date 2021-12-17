@@ -95,6 +95,13 @@
                 android:resource="@xml/filepath"
                 tools:replace="android:resource" />
         </provider>
+        <receiver android:name="com.example.sentiance_flutter.MyAlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="your.package.BOOT_FIRSTTIME"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
