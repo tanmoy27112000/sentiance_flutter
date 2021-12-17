@@ -41,11 +41,9 @@ import okhttp3.Response;
 
 public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler, ResetCallback {
     //PROD
-    private static final String NEW_URL = "https://mobileapi.safetyconnect.io/user/link";
-    private static final String SDK_STATUS_URL = "https://mobileapi.safetyconnect.io/user/mobile-health";
+    private static final String SDK_STATUS_URL = "https://devmobileapi.safetyconnect.io/me/mobilehealth";
 
     private static final String TAG = "SentianceWrapper";
-
 
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
@@ -166,33 +164,41 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         OkHttpClient client = new OkHttpClient();
         SdkStatus sdkstats = sdkStatus;
 
-        String statusbody = "{\"SDKstartStatus\":\"" + sdkstats.startStatus + "\"," +
-                "\"canDetect\":\"" + sdkstats.canDetect + "\"," +
-                "\"isRemoteEnabled\":\""+  sdkstats.isRemoteEnabled+ "\"," +
-                "\"isLocationPermGranted\": \""+  sdkstats.isLocationPermGranted + "\"," +
-                "\"isAccelPresent\":\""+ sdkstats.isAccelPresent + "\"," +
-                "\"isGpsPresent\":\""+sdkstats.isGpsPresent + "\"," +
-                "\"isGyroPresent\":\""+sdkstats.isGyroPresent + "\"," +
-                "\"appVersion\":\"" + BuildConfig.VERSION_CODE+ "\"," +
-                "\"osVersion\":\"" + Build.VERSION.SDK_INT + "\"," +
-                "\"modelName\":\"" + Build.MODEL + "\"," +
-                "\"androidsdkVersion\":\"" + Build.VERSION.RELEASE + "\"," +
-                "\"sdkUserID\":\"" +Sentiance.getInstance(mContext).getUserId()+ "\"," +
+        String statusbody = "{" +
                 "\" isGooglePlayServicesMissing \":\""+sdkstats.isGooglePlayServicesMissing + "\"," +
-                "\"isActivityRecognitionPermGranted\":\""+ sdkstats.isActivityRecognitionPermGranted+ "\"," +
-                "\"isAirplaneModeEnabled\":\""+ sdkstats.isAirplaneModeEnabled + "\"," +
-                "\"isLocationAvailable \":\""+sdkstats.isLocationAvailable + "\"," +
-                "\"locationSetting\":\""+ sdkstats.locationSetting.name() + "\"," +
                 "\"BRAND\":\"" + Build.BRAND + "\"," +
                 "\"DEVICE\":\"" + Build.DEVICE + "\"," +
                 "\"MANUFACTURER\":\"" + Build.MANUFACTURER + "\"," +
-                "\"wifiQuotaStatus\":\""+ sdkstats.wifiQuotaStatus + "\"," +
-                "\"mobileQuotaStatus\":\""+sdkstats.mobileQuotaStatus + "\"," +
+                "\"SDKstartStatus\":\"" + sdkstats.startStatus + "\"," +
+                "\"androidsdkVersion\":\"" + Build.VERSION.RELEASE + "\"," +
+                "\"appVersion\":\"" + BuildConfig.VERSION_NAME+ "\"," +
+                "\"canDetect\":\"" + sdkstats.canDetect + "\"," +
                 "\"diskQuotaStatus\":\""+ sdkstats.diskQuotaStatus + "\"," +
+                "\"isAccelPresent\":\""+ sdkstats.isAccelPresent + "\"," +
+                "\"isActivityRecognitionPermGranted\":\""+ sdkstats.isActivityRecognitionPermGranted+ "\"," +
+                "\"isAirplaneModeEnabled\":\""+ sdkstats.isAirplaneModeEnabled + "\"," +
+                "\"isBackgroundProcessingRestricted\":\""+ sdkstats.isBackgroundProcessingRestricted +
                 "\"isBatteryOptimizationEnabled\":\""+sdkstats.isBatteryOptimizationEnabled + "\"," +
                 "\"isBatterySavingEnabled\":\""+ sdkstats.isBatterySavingEnabled + "\"," +
-                "\"isBackgroundProcessingRestricted\":\""+ sdkstats.isBackgroundProcessingRestricted + "\"}";
+                "\"isGpsPresent\":\""+sdkstats.isGpsPresent + "\"," +
+                "\"isGyroPresent\":\""+sdkstats.isGyroPresent + "\"," +
+                "\"isLocationAvailable \":\""+sdkstats.isLocationAvailable + "\"," +
+                "\"isLocationPermGranted\": \""+  sdkstats.isLocationPermGranted + "\"," +
+                "\"isRemoteEnabled\":\""+  sdkstats.isRemoteEnabled+ "\"," +
+                "\"locationSetting\":\""+ sdkstats.locationSetting.name() + "\"," +
+                "\"mobileQuotaStatus\":\""+sdkstats.mobileQuotaStatus + "\"," +
+                "\"wifiQuotaStatus\":\""+ sdkstats.wifiQuotaStatus + "\"," +
+                "\"modelName\":\"" + Build.MODEL + "\"," +
+                "\"osVersion\":\"" + Build.VERSION.SDK_INT + "\"," +
 
+                "\"sdk\":" +
+                "{" +
+                "\"install_id\":\""+ mCache.getInstallId() +"\"," +
+                "\"sentiance_user_id\":\""+ mCache.getUserId() +"\"" +
+                "}," +
+                "\"sdkUserID\":\"" + mCache.getUserId()+ "\"," +
+
+                "\"}";
         Log.i(TAG, "SDKstatusbody " + statusbody);
 
         Request request1 = new Request.Builder()
@@ -256,7 +262,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         Log.e(TAG, "sentiance json " + jsonBody1);
 
         Request request1 = new Request.Builder()
-                .url(NEW_URL)
+                .url(mCache.getKeyUserLinkUrl())
                 .header("Authorization", getAuthHeader())
                 .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody1))
                 .build();
