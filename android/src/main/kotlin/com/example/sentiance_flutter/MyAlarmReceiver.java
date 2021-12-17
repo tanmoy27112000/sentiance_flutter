@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 public class MyAlarmReceiver extends BroadcastReceiver {
     Cache mCache;
-    private static final String SDK_STATUS_URL = "https://mobileapi.safetyconnect.io/me/mobilehealth";
+    private static final String SDK_STATUS_URL = "https://devmobileapi.safetyconnect.io/me/mobilehealth";
 
     @Override
     public void onReceive(Context context, Intent intent) {

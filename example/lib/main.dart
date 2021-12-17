@@ -82,14 +82,19 @@ class _MyAppState extends State<MyApp> {
                 setState(() {
                   isLocationEnabled = true;
                 });
-                await SentianceFlutter.initialiseSentiance({
-                  "data": {
-                    "sentiance_secret":"3831007f47033a9c9a90ffa415da1465130e3cec6d974f17fe16e0c6229a00398173509b41c78b4e290323c4cfc415029ed1abbcca1dc70fc58a8ce0a874ef4b",
-                    "app_id":"61409961d07ba10900000277",
-                    "email": "easwalanidumolu@gmail.com",
-                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJpc3MiOiJodHRwczovL2RldnNhZmV0Y29ubmVjdC5iMmNsb2dpbi5jb20vNTAzODc0ZjQtNDdjNS00Y2E4LWJjODctMjE1NjljNjI5MTU5L3YyLjAvIiwiZXhwIjoxNjM2NzE3MjAzLCJuYmYiOjE2MzY2MzA4MDMsImF1ZCI6IjVjZWNiZDBlLWFjM2MtNDE4OC04MmQ2LWFiZTMxYmZmNTE3OCIsImlkcCI6IkxvY2FsQWNjb3VudCIsInN1YiI6IjgyZDA0ODU2LTFjNmUtNDQ2Zi1iZWVlLTAzYTQwNGRjOWM5YSIsImdpdmVuX25hbWUiOiJUYW5tb3kiLCJlbWFpbHMiOlsidGFubW95a2FybWFrYXJAZ3l0d29ya3ouY29tIl0sInRmcCI6IkIyQ18xX2xvZ2luIiwiYXpwIjoiNWNlY2JkMGUtYWMzYy00MTg4LTgyZDYtYWJlMzFiZmY1MTc4IiwidmVyIjoiMS4wIiwiaWF0IjoxNjM2NjMwODAzfQ.Vg9J1gpwxeeTu1dYaEvwbAkOwwpzORT2_aER_H5m2O4o36VnYFPhHclJDRglm2Ve35Nf6f7jNq2FfnpWQyBQoYurDFZr2-paicmsXNbmmYJIXtSpzXObBQEFCMxGcDwY5ZH0suC9EjwpPBzV4W-uyRj9twuBZszoSPQn36rFIoOnkffLT7TwHsLqeM5PVR3OMMgWXon6RpVWmFhsrdNBaUoO34GfzIw_DPyO-Rh84s1e1C8ray13kJHxjB6NVb68q87UiwB0BF8oaKesQvg4d389eC2tIr7ceVxXsxncSmFoko3Iw72l4BHFUgCz2pEVF-FAU7z4dhcWHhjvLVKKuw"      //  "
-
-                   }});
+                await SentianceFlutter.initialiseSentiance(
+                  {
+                    "data": {
+                      "sentiance_secret":
+                      "a2bc95ee20eacc70fbfb4bb15122356a0fcc11ebec0bfad76dfa6338caf74a7871c7ebe3fb6cb02633905ac61673bace5322f5352da9e24a67f1f51957ba2325",
+                      "app_id": "5faaa10ea972a10600000027",
+                      "user_link_url":
+                      "https://devmobileapi.safetyconnect.io/user/link",
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjliOWI5OTc4LWQxNjEtNDNmNy1hOTU0LWU4OTMyY2I2ZGUzZSIsImlhdCI6MTYzOTczNjEzNn0.vXgqIKHZ3DWv89cC2xSqStVpd1icb5Zdc1lbMsk3DE8",
+                      "email": "tanmoykarmakar@gytworkz.com"
+                    }
+                  },
+                );
               }
             },
           ),

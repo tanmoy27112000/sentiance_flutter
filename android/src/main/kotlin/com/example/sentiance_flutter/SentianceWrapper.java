@@ -19,6 +19,7 @@ import com.sentiance.sdk.MetaUserLinker;
 import com.sentiance.sdk.OnInitCallback;
 import com.sentiance.sdk.OnSdkStatusUpdateHandler;
 import com.sentiance.sdk.OnStartFinishedHandler;
+import com.sentiance.sdk.ResetCallback;
 import com.sentiance.sdk.SdkConfig;
 import com.sentiance.sdk.SdkStatus;
 import com.sentiance.sdk.Sentiance;
@@ -38,20 +39,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
+public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler, ResetCallback {
     //PROD
     private static final String NEW_URL = "https://mobileapi.safetyconnect.io/user/link";
-    private static final String URL = "https://rademo.fleetconnect.io/apinode-ehs/user/link_user";
-    private static final String URL1 = "https://rademo.fleetconnect.io/apinode-ehs/user/update_profile";
-    private static final String CRASH_DETECTION_URL = "https://rademo.fleetconnect.io/apinode-ehs/user/crash";
     private static final String SDK_STATUS_URL = "https://mobileapi.safetyconnect.io/user/mobile-health";
-
-//DEV
- //  private static final String URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/link_user";
-//    private static final String URL1 = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/update_profile";
-//    private static final String CRASH_DETECTION_URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/crash";
-//    private static final String SDK_STATUS_URL = "https://dev.ehs.fleetconnect.io/apinode-ehs/user/mobile-health";
-
 
     private static final String TAG = "SentianceWrapper";
 
@@ -59,6 +50,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
     public static final String ACTION_INIT_FAILED = "com.sentiance.ACTION_INIT_FAILED";
+    public static final String ACTION_INIT_RESET = "com.sentiance.ACTION_INIT_FAILED";
 
     private Context mContext;
     private Cache mCache;
@@ -90,6 +82,9 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             // Cannot initialize the SDK since the app Id is missing.
             return;
         }
+
+        Log.e(TAG, "link: "+mCache.getAppId() );
+        Log.e(TAG, "link: "+mCache.getAppSecret() );
 
        // Create the config.
         SdkConfig config = new SdkConfig.Builder(mCache.getAppId(), mCache.getAppSecret(), createNotification())
@@ -216,7 +211,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i("updatedto server", response.body().string());
+                Log.i("updated to server", response.body().string());
 
             }
 
@@ -304,8 +299,10 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
         Log.e(TAG, "link: "+_installId );
         String jsonBody = "{ \"installId\": \"" + installId + "\"}";
+        Log.e(TAG, "link: "+ jsonBody );
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, jsonBody);
+        Log.e(TAG, "link: "+ body.toString() );
         Request request = new Request.Builder()
                 .url(mCache.getKeyUserLinkUrl())
                 .put(body)
@@ -333,4 +330,13 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
                 .build();
     }
 
+    @Override
+    public void onResetSuccess() {
+
+    }
+
+    @Override
+    public void onResetFailure(ResetFailureReason reason) {
+
+    }
 }
