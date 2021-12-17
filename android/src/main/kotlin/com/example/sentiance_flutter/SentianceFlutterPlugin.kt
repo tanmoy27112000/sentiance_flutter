@@ -1,22 +1,21 @@
 package com.example.sentiance_flutter
 
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import android.content.IntentFilter
+import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.sentiance_flutter.sentiance.PermissionCheckActivity
 import com.example.sentiance_flutter.sentiance.PermissionManager
-import com.example.sentiance_flutter.model.SentianceDataModel
 import com.example.sentiance_flutter.model.SentianceDataStatus
 import com.sentiance.sdk.*
+import io.flutter.embedding.android.FlutterActivity
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -143,11 +142,26 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   fun refreshStatus() {
     if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
       getToken()
+      updateDataToApi();
       //sentianceUserId= Sentiance.getInstance(context)!.userId;
      // sentianceStartStatus = Sentiance.getInstance(context).sdkStatus.startStatus.name
      // Log.e("TAG", "refreshStatus: "+ SentainceDataModel(Sentiance.getInstance(context).userId, Sentiance.getInstance(this).sdkStatus.startStatus.name, sentianceToken).toJSON());
     }else{
       Log.e("TAG", "refreshStatus: notinittt " )
+    }
+  }
+
+  fun updateDataToApi(){
+
+    val alarmManager = context.getSystemService(FlutterActivity.ALARM_SERVICE) as AlarmManager
+    val i = Intent(context, MyAlarmReceiver::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+    if (Build.VERSION.SDK_INT >= 19){
+      alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60*1000, pendingIntent);
+      Log.e("TAG", "onCreate: "+ Build.VERSION.SDK_INT);
+    }else{
+      alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
     }
   }
 

@@ -1,12 +1,12 @@
 package com.example.sentiance_flutter;
 
+import static com.sentiance.sdk.InitState.NOT_INITIALIZED;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
@@ -24,21 +24,11 @@ import com.sentiance.sdk.SdkStatus;
 import com.sentiance.sdk.Sentiance;
 import com.sentiance.sdk.Token;
 import com.sentiance.sdk.TokenResultCallback;
-import com.sentiance.sdk.TripProfileListener;
-import com.sentiance.sdk.crashdetection.CrashCallback;
-import com.sentiance.sdk.ondevice.TripProfile;
-//import com.sentiance.sdk.ondevicefull.crashdetection.VehicleCrashEvent;
-//import com.sentiance.sdk.ondevicefull.crashdetection.VehicleCrashListener;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import static com.sentiance.sdk.InitState.NOT_INITIALIZED;
-import static com.sentiance.sdk.trip.TripType.ANY;
-import static com.sentiance.sdk.trip.TripType.SDK_TRIP;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -174,6 +164,63 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         // The status update is broadcast internally; this is so the other components of the app
         // (specifically MainActivity) can react on this.
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_SDK_STATUS_UPDATED));
+        updateToServer(sdkStatus);
+    }
+
+    private void updateToServer(SdkStatus sdkStatus) {
+        OkHttpClient client = new OkHttpClient();
+        SdkStatus sdkstats = sdkStatus;
+
+        String statusbody = "{\"SDKstartStatus\":\"" + sdkstats.startStatus + "\"," +
+                "\"canDetect\":\"" + sdkstats.canDetect + "\"," +
+                "\"isRemoteEnabled\":\""+  sdkstats.isRemoteEnabled+ "\"," +
+                "\"isLocationPermGranted\": \""+  sdkstats.isLocationPermGranted + "\"," +
+                "\"isAccelPresent\":\""+ sdkstats.isAccelPresent + "\"," +
+                "\"isGpsPresent\":\""+sdkstats.isGpsPresent + "\"," +
+                "\"isGyroPresent\":\""+sdkstats.isGyroPresent + "\"," +
+                "\"appVersion\":\"" + BuildConfig.VERSION_CODE+ "\"," +
+                "\"osVersion\":\"" + Build.VERSION.SDK_INT + "\"," +
+                "\"modelName\":\"" + Build.MODEL + "\"," +
+                "\"androidsdkVersion\":\"" + Build.VERSION.RELEASE + "\"," +
+                "\"sdkUserID\":\"" +Sentiance.getInstance(mContext).getUserId()+ "\"," +
+                "\" isGooglePlayServicesMissing \":\""+sdkstats.isGooglePlayServicesMissing + "\"," +
+                "\"isActivityRecognitionPermGranted\":\""+ sdkstats.isActivityRecognitionPermGranted+ "\"," +
+                "\"isAirplaneModeEnabled\":\""+ sdkstats.isAirplaneModeEnabled + "\"," +
+                "\"isLocationAvailable \":\""+sdkstats.isLocationAvailable + "\"," +
+                "\"locationSetting\":\""+ sdkstats.locationSetting.name() + "\"," +
+                "\"BRAND\":\"" + Build.BRAND + "\"," +
+                "\"DEVICE\":\"" + Build.DEVICE + "\"," +
+                "\"MANUFACTURER\":\"" + Build.MANUFACTURER + "\"," +
+                "\"wifiQuotaStatus\":\""+ sdkstats.wifiQuotaStatus + "\"," +
+                "\"mobileQuotaStatus\":\""+sdkstats.mobileQuotaStatus + "\"," +
+                "\"diskQuotaStatus\":\""+ sdkstats.diskQuotaStatus + "\"," +
+                "\"isBatteryOptimizationEnabled\":\""+sdkstats.isBatteryOptimizationEnabled + "\"," +
+                "\"isBatterySavingEnabled\":\""+ sdkstats.isBatterySavingEnabled + "\"," +
+                "\"isBackgroundProcessingRestricted\":\""+ sdkstats.isBackgroundProcessingRestricted + "\"}";
+
+        Log.i(TAG, "SDKstatusbody " + statusbody);
+
+        Request request1 = new Request.Builder()
+                .url(SDK_STATUS_URL)
+                .header("Authorization", getAuthHeader())
+                .post(RequestBody.create(MediaType.parse("application/json"), statusbody))
+                .build();
+
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("fail", e.toString());
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.i("updatedto server", response.body().string());
+
+            }
+
+        });
 
     }
 
