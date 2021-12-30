@@ -42,7 +42,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler, ResetCallback {
+public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
     //PROD
     private static final String SDK_STATUS_URL = "https://devmobileapi.safetyconnect.io/me/mobilehealth";
 
@@ -349,13 +349,4 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
                 .build();
     }
 
-    @Override
-    public void onResetSuccess() {
-
-    }
-
-    @Override
-    public void onResetFailure(ResetFailureReason reason) {
-
-    }
 }

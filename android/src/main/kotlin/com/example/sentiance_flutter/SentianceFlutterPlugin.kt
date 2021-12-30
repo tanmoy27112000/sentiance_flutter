@@ -103,21 +103,9 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         var data = Sentiance.getInstance(context).sdkStatus;
         if(Sentiance.getInstance(context).sdkStatus == SdkStatus.StartStatus.STARTED){
-          result.success(SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
-            data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
-            data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
-            data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
-            data.isBatteryOptimizationEnabled, data.isBatterySavingEnabled,
-            data.isBackgroundProcessingRestricted
-          ).toJSON());
+          result.success(data);
         }else{
-          result.success(SentianceDataStatus(Sentiance.getInstance(context).userId, data.startStatus.name,
-            data.canDetect, data.isRemoteEnabled, data.isLocationPermGranted,
-            data.isActivityRecognitionPermGranted, data.isAirplaneModeEnabled, data.isLocationAvailable,
-            data.isAccelPresent, data.isGyroPresent, data.isGpsPresent, data.isGooglePlayServicesMissing,
-            data.isBatteryOptimizationEnabled, data.isBatterySavingEnabled,
-            data.isBackgroundProcessingRestricted
-          ).toJSON());
+          result.success(data);
         }
       }else{
         result.success("NOT_INITIALIZED");
