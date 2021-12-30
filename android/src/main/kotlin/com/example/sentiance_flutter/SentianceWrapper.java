@@ -117,6 +117,8 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
                 Log.e(TAG, "Sentiance SDK reset failed with reason " + reason.name());
             }
         });
+        Sentiance.getInstance(mContext).reset();
+        Sentiance.getInstance(mContext).stop();
     }
 
     public void startSentianceSdk () {
