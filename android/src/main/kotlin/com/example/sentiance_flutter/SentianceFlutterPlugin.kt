@@ -82,7 +82,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           cache.setMobileHealthUrl(data1["mobile_health_url"].toString())
         SentianceWrapper(context).initializeSentianceSdk()
         SentianceWrapper(context).getStatus(result)
-
+        result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
       }
 
     }else if(call.method == "getSentianceData"){
@@ -94,9 +94,11 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
     }else if(call.method == "stopSdk"){
       SentianceWrapper(context).stopSentianceSdk()
+      result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
     }else if(call.method == "startSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
         SentianceWrapper(context).startSentianceSdk()
+        result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
       }
     }else if(call.method == "statusSdk"){
       if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
