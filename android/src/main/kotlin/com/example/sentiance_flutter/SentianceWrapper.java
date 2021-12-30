@@ -104,7 +104,6 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     }
 
     public void stopSentianceSdk () {
-        Sentiance.getInstance(mContext).stop();
         Sentiance.getInstance(mContext).reset(new ResetCallback() {
             @Override
             public void onResetSuccess() {
