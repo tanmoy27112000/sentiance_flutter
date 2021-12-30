@@ -6,12 +6,12 @@ import androidx.annotation.Nullable;
 
 class Cache {
     private static final String PREF_NAME = "app";
-    private static final String KEY_USER_ID = "user_id";
     private static final String KEY_AUTH_TOKEN = "token";
     private static final String KEY_INITIALIZE = "initialize";
     private static final String KEY_APP_SECRET = "app_secret";
     private static final String KEY_APP_ID = "app_id";
     private static final String KEY_USER_LINK_URL = "user_link_url";
+    private static final String KEY_MOBILE_HEALTH_URL = "mobile_health_url";
     private static final String KEY_USER_INSTALL_ID = "user_install_id";
 
     private Context mContext;
@@ -32,14 +32,14 @@ class Cache {
     }
 
     @Nullable
-    String getUserId() {
+    String getMobileHealthUrl() {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_USER_ID, null);
+        return sharedPreferences.getString(KEY_MOBILE_HEALTH_URL, null);
     }
 
-    void setUserId(String userId) {
+    void setMobileHealthUrl(String mobileHealthUrl) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(KEY_USER_ID, userId).apply();
+        sharedPreferences.edit().putString(KEY_MOBILE_HEALTH_URL, mobileHealthUrl).apply();
     }
     @Nullable
     String getUserToken() {

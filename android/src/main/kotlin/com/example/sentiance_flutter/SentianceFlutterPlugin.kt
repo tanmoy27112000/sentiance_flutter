@@ -70,19 +70,18 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         startActivity(context,intent, null);
       }
 
-
       var data = call.arguments as HashMap<String, Any>
 
       var data1= data["data"] as HashMap<String,Any>
 
-      if(data1["email"]!=null && data1["email"].toString().isNotEmpty()== true){
+      if(data1["token"]!=null && data1["token"].toString().isNotEmpty()== true){
 
         val cache = Cache(activity)
-          cache.setUserId(data1["email"].toString())
           cache.setUserToken(data1["token"].toString())
           cache.setAppSecret(data1["sentiance_secret"].toString())
           cache.setKeyAppId(data1["app_id"].toString())
           cache.setKeyUserLinkUrl(data1["user_link_url"].toString())
+          cache.setMobileHealthUrl(data1["mobile_health_url"].toString())
         SentianceWrapper(context).initializeSentianceSdk()
       }
 

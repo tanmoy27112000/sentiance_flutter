@@ -27,12 +27,10 @@ import okhttp3.Response;
 
 public class MyAlarmReceiver extends BroadcastReceiver {
     Cache mCache;
-    private static final String SDK_STATUS_URL = "https://devmobileapi.safetyconnect.io/me/mobilehealth";
-
+    
     @Override
     public void onReceive(Context context, Intent intent) {
         mCache = new Cache(context);
-        Log.e("TAG", "onReceive: " + mCache.getUserId());
 
         if (Sentiance.getInstance(context).getInitState() == InitState.INITIALIZED)  {
             updateToServer(context,Sentiance.getInstance(context).getSdkStatus());
@@ -75,7 +73,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
             jsonObject.put("osVersion", Build.VERSION.SDK_INT);
             jsonObject.put("install_id", mCache.getInstallId() );
             jsonObject.put("sentiance_user_id", mCache.getInstallId() );
-            jsonObject.put("sdkUserID", mCache.getUserId() );
+            jsonObject.put("sdkUserID", mCache.getInstallId() );
             jsonObject.put("wifiQuotaStatus", sdkstats.wifiQuotaStatus );
 
         } catch (JSONException e) {
@@ -87,7 +85,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
 
         Request request1 = new Request.Builder()
-                .url(SDK_STATUS_URL)
+                .url(mCache.getMobileHealthUrl())
                 .header("Authorization", mCache.getUserToken())
                 .post(body)
                 .build();

@@ -66,7 +66,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     }
 
     public void initializeSentianceSdk () {
-        if (mCache.getUserId() == null) {
+        if (mCache.getUserToken() == null) {
             // Cannot initialize the SDK since the user has not logged in yet.
             return;
         }
@@ -80,7 +80,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             return;
         }
         if (mCache.getKeyUserLinkUrl() == null) {
-            // Cannot initialize the SDK since the app Id is missing.
+            // Cannot initialize the SDK since the user link url is missing.
             return;
         }
 
@@ -208,7 +208,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             jsonObject.put("osVersion", Build.VERSION.SDK_INT);
             jsonObject.put("install_id", mCache.getInstallId() );
             jsonObject.put("sentiance_user_id", mCache.getInstallId() );
-            jsonObject.put("sdkUserID", mCache.getUserId() );
+            jsonObject.put("sdkUserID", mCache.getInstallId());
             jsonObject.put("wifiQuotaStatus", sdkstats.wifiQuotaStatus );
 
         } catch (JSONException e) {
