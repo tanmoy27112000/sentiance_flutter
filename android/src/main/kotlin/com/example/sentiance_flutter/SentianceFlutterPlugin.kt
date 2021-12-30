@@ -81,6 +81,8 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           cache.setKeyUserLinkUrl(data1["user_link_url"].toString())
           cache.setMobileHealthUrl(data1["mobile_health_url"].toString())
         SentianceWrapper(context).initializeSentianceSdk()
+        SentianceWrapper(context).getStatus(result)
+
       }
 
     }else if(call.method == "getSentianceData"){

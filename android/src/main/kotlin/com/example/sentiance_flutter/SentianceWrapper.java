@@ -26,6 +26,7 @@ import com.sentiance.sdk.Sentiance;
 import com.sentiance.sdk.Token;
 import com.sentiance.sdk.TokenResultCallback;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import io.flutter.plugin.common.MethodChannel;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -54,6 +56,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
     private Cache mCache;
     String _installId="";
     private SimpleDateFormat dateFormatter;
+    String UserLinkStatus = "";
 
 
     public SentianceWrapper(Context context) {
@@ -225,10 +228,12 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         client.newCall(request1).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                UserLinkStatus = "User linking Failed";
                 Log.e("fail", e.toString());
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                UserLinkStatus = "User linking Success";
                 Log.e("updated mobile api", response.body().string());
             }
         });
@@ -345,4 +350,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
                 .build();
     }
 
+    public void getStatus(@NotNull MethodChannel.Result result) {
+        result.success(UserLinkStatus);
+    }
 }
