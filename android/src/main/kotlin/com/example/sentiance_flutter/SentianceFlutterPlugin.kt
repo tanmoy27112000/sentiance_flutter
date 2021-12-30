@@ -77,9 +77,7 @@ class SentianceFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
       if(data1["email"]!=null && data1["email"].toString().isNotEmpty()== true){
 
-
         val cache = Cache(activity)
-
           cache.setUserId(data1["email"].toString())
           cache.setUserToken(data1["token"].toString())
           cache.setAppSecret(data1["sentiance_secret"].toString())
