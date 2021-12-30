@@ -72,8 +72,8 @@ public class MyAlarmReceiver extends BroadcastReceiver {
             jsonObject.put("modelName", Build.MODEL );
             jsonObject.put("osVersion", Build.VERSION.SDK_INT);
             jsonObject.put("install_id", mCache.getInstallId() );
-            jsonObject.put("sentiance_user_id", mCache.getInstallId() );
-            jsonObject.put("sdkUserID", mCache.getInstallId() );
+            jsonObject.put("sentiance_user_id", Sentiance.getInstance(context).getUserId() );
+            jsonObject.put("sdkUserID", Sentiance.getInstance(context).getUserId());
             jsonObject.put("wifiQuotaStatus", sdkstats.wifiQuotaStatus );
 
         } catch (JSONException e) {

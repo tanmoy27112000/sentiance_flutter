@@ -43,11 +43,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
-    //PROD
-    private static final String SDK_STATUS_URL = "https://devmobileapi.safetyconnect.io/me/mobilehealth";
 
     private static final String TAG = "SentianceWrapper";
-
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
     public static final String ACTION_INIT_SUCCEEDED = "com.sentiance.ACTION_INIT_SUCCEEDED";
     public static final String ACTION_INIT_FAILED = "com.sentiance.ACTION_INIT_FAILED";
@@ -208,7 +205,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             jsonObject.put("osVersion", Build.VERSION.SDK_INT);
             jsonObject.put("install_id", mCache.getInstallId() );
             jsonObject.put("sentiance_user_id", mCache.getInstallId() );
-            jsonObject.put("sdkUserID", mCache.getInstallId());
+            jsonObject.put("sdkUserID", Sentiance.getInstance(mContext).getUserId());
             jsonObject.put("wifiQuotaStatus", sdkstats.wifiQuotaStatus );
 
         } catch (JSONException e) {
@@ -220,7 +217,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
 
         Request request1 = new Request.Builder()
-                .url(SDK_STATUS_URL)
+                .url(mCache.getMobileHealthUrl())
                 .header("Authorization", mCache.getUserToken())
                 .post(body)
                 .build();
@@ -270,14 +267,13 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
         OkHttpClient client = new OkHttpClient();
 
-        String jsonBody1 = "{\"sentiance_user_id\": \"" + Sentiance.getInstance(mContext).getUserId() + "\"," +
-                " \"install_id\": \"" + _installId + "\"}";
-        Log.e(TAG, "sentiance json " + jsonBody1);
+        String jsonBody = "{ \"installId\": \"" + Sentiance.getInstance(mContext).getUserId() + "\"}";
+        Log.e(TAG, "sentiance json " + jsonBody);
 
         Request request1 = new Request.Builder()
                 .url(mCache.getKeyUserLinkUrl())
                 .header("Authorization", getAuthHeader())
-                .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody1))
+                .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody))
                 .build();
 
 
