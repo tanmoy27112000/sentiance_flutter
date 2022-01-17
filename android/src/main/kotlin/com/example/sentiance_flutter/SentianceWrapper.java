@@ -270,32 +270,32 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         Log.i(TAG, "Sentiance SDK initialized, version: " + Sentiance.getInstance(mContext).getVersion());
         Log.i(TAG, "Sentiance platform user id for this install: " + Sentiance.getInstance(mContext).getUserId());
 
-        OkHttpClient client = new OkHttpClient();
-
-        String jsonBody = "{ \"installId\": \"" + Sentiance.getInstance(mContext).getUserId() + "\"}";
-        Log.e(TAG, "sentiance json " + jsonBody);
-
-        Request request1 = new Request.Builder()
-                .url(mCache.getKeyUserLinkUrl())
-                .header("Authorization", getAuthHeader())
-                .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody))
-                .build();
-
-
-        client.newCall(request1).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, e.toString());
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.w(TAG, response.body().string());
-
-            }
-
-        });
+//        OkHttpClient client = new OkHttpClient();
+//
+//        String jsonBody = "{ \"installId\": \"" + Sentiance.getInstance(mContext).getUserId() + "\"}";
+//        Log.e(TAG, "sentiance json " + jsonBody);
+//
+//        Request request1 = new Request.Builder()
+//                .url(mCache.getKeyUserLinkUrl())
+//                .header("Authorization", getAuthHeader())
+//                .patch(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+//                .build();
+//
+//
+//        client.newCall(request1).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.e(TAG, e.toString());
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                Log.w(TAG, response.body().string());
+//
+//            }
+//
+//        });
 
         Sentiance.getInstance(mContext).getUserAccessToken(new TokenResultCallback() {
             @Override
