@@ -126,7 +126,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     @Override
     public void onInitSuccess () {
-        printInitSuccessLogStatements();
+        // printInitSuccessLogStatements();
 
         mCache.setInitialize("initialized");
         // Sentiance SDK was successfully initialized, we can now start it.
