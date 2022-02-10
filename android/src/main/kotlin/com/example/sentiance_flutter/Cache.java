@@ -12,6 +12,7 @@ class Cache {
     private static final String KEY_APP_ID = "app_id";
     private static final String KEY_USER_LINK_URL = "user_link_url";
     private static final String KEY_MOBILE_HEALTH_URL = "mobile_health_url";
+    private static final String KEY_CRASH_DETECTION_URL = "crash_detection_url";
     private static final String KEY_USER_INSTALL_ID = "user_install_id";
 
     private Context mContext;
@@ -41,6 +42,18 @@ class Cache {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(KEY_MOBILE_HEALTH_URL, mobileHealthUrl).apply();
     }
+
+    @Nullable
+    String getCrashDetectionUrl() {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_CRASH_DETECTION_URL, null);
+    }
+
+    void setCrashDetectionUrl(String crashDetectionUrl) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_CRASH_DETECTION_URL, crashDetectionUrl).apply();
+    }
+
     @Nullable
     String getUserToken() {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);

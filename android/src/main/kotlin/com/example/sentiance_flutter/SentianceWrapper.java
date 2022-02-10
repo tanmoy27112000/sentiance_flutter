@@ -25,6 +25,8 @@ import com.sentiance.sdk.SdkStatus;
 import com.sentiance.sdk.Sentiance;
 import com.sentiance.sdk.Token;
 import com.sentiance.sdk.TokenResultCallback;
+import com.sentiance.sdk.ondevicefull.crashdetection.VehicleCrashEvent;
+import com.sentiance.sdk.ondevicefull.crashdetection.VehicleCrashListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -44,7 +46,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
+public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler, VehicleCrashListener {
 
     private static final String TAG = "SentianceWrapper";
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
@@ -352,5 +354,10 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     public void getStatus(@NotNull MethodChannel.Result result) {
         result.success(UserLinkStatus);
+    }
+
+    @Override
+    public void onVehicleCrash(VehicleCrashEvent crashEvent) {
+        Log.e(TAG, mCache.getCrashDetectionUrl());
     }
 }
