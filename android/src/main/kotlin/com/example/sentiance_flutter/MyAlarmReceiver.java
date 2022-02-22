@@ -37,8 +37,6 @@ public class MyAlarmReceiver extends BroadcastReceiver {
         }else{
             Log.e("TAG", "onReceive: sdk not initialized" + Sentiance.getInstance(context).getInitState());
         }
-
-
     }
 
     private void updateToServer(Context context,SdkStatus sdkStatus) {
@@ -100,7 +98,5 @@ public class MyAlarmReceiver extends BroadcastReceiver {
                 Log.e("updated mobile api", response.body().string());
             }
         });
-
     }
-
 }

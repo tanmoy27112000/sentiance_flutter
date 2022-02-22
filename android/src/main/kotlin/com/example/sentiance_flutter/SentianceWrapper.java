@@ -237,6 +237,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             public void onResponse(Call call, Response response) throws IOException {
                 UserLinkStatus = "User linking Success";
                 Log.e("updated mobile api", response.body().string());
+                mCache.setMobileHealthData(jsonObject);
             }
         });
 
