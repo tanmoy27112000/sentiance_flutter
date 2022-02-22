@@ -1,8 +1,24 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:sentiance_flutter/models/mobile_health_data.dart';
 
 class SentianceFlutter {
+  static Map getCredentails(token, sentianceSecret, appId, userLinkUrl,
+      crashDetectionUrl, mobileHealthUrl) {
+    return {
+      "data": {
+        "token": token,
+        "sentiance_secret": sentianceSecret,
+        "app_id": appId,
+        "user_link_url": userLinkUrl,
+        "crash_detection_url": crashDetectionUrl,
+        "mobile_health_url": mobileHealthUrl
+      }
+    };
+  }
+
   static const MethodChannel _channel = MethodChannel('sentiance_flutter');
   static const MethodChannel _channel1 =
       MethodChannel('flutter.sentiance/helper');
@@ -17,8 +33,12 @@ class SentianceFlutter {
     return initSentiance;
   }
 
-  static initialiseSentiance(Map<dynamic, dynamic> data) async {
-    var initSentiance = await _channel.invokeMethod('intialiseSdk', data);
+  static initialiseSentiance(String token, String sentianceSecret, appId,
+      userLinkUrl, crashDetectionUrl, mobileHealthUrl) async {
+    var credentials = getCredentails(token, sentianceSecret, appId, userLinkUrl,
+        crashDetectionUrl, mobileHealthUrl);
+    var initSentiance =
+        await _channel.invokeMethod('intialiseSdk', credentials);
     return initSentiance;
   }
 
@@ -45,5 +65,11 @@ class SentianceFlutter {
   static Future<dynamic> get getSentianceInitial async {
     var sentianceStatus = await _channel1.invokeMethod('sentiance_initial');
     return sentianceStatus;
+  }
+
+  static Future<dynamic> get getMobileHealthData async {
+    var sentianceMobileHealthData =
+        await _channel.invokeMethod('getMobileHealthData');
+    return MobileHealthData.fromJson(jsonDecode(sentianceMobileHealthData));
   }
 }
