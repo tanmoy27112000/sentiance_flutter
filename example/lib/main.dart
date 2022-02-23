@@ -1,13 +1,8 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sentiance_flutter/models/mobile_health_data.dart';
 import 'package:sentiance_flutter/sentiance_flutter.dart';
 
-//! 1. make a model that needs to be sent to the sentiance
-//! 2. health packet
 void main() {
   runApp(const MyApp());
 }
@@ -160,8 +155,7 @@ class _MyAppState extends State<MyApp> {
               value: isHealthDataFetched,
               onChanged: (bool value) async {
                 if (value) {
-                  MobileHealthData data =
-                      await SentianceFlutter.getMobileHealthData;
+                  var data = await SentianceFlutter.getMobileHealthData;
                   print(data.brand);
                 }
                 setState(() {
