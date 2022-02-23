@@ -67,7 +67,7 @@ class SentianceFlutter {
     return sentianceStatus;
   }
 
-  static Future<dynamic> get getMobileHealthData async {
+  static Future<MobileHealthData> get getMobileHealthData async {
     var sentianceMobileHealthData =
         await _channel.invokeMethod('getMobileHealthData');
     return MobileHealthData.fromJson(jsonDecode(sentianceMobileHealthData));
