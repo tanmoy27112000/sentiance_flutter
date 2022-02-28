@@ -231,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646050664006</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="&quot;Removed unnecessary comments&quot;">
+      <created>1646050708187</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1646050708187</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
