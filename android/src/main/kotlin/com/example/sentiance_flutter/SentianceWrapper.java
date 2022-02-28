@@ -257,9 +257,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         return new NotificationCompat.Builder(mContext, channelId)
                 .setContentTitle("Safetyconnect" + " is running")
                 .setContentText("Touch to open.")
-               // .setContentIntent(pendingIntent)
                 .setShowWhen(false)
-               // .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .build();
     }
