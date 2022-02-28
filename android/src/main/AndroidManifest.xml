@@ -29,7 +29,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value= "AIzaSyCxO3dtCSAQsNowpFMsjVyQnh7yOHBxNq0"/>
-        <!--             "AIzaSyC7UxCG_GhXVvSJOMnKYfQWM_xeK9FhSaw"/>-->
+        
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:launchMode="singleTop"
