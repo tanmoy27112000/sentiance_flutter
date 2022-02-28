@@ -24,15 +24,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   String token = // we get the token from the app
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRkNGM4NjhkLWJmMzMtNDYwMi05OGY2LTNkOTlkNjZjODRiMCIsImlhdCI6MTY0NTY3OTI4Nn0.S5wYYuKYGyXfkNAwFZz8KR_0Hn9TMrorWfGAK2TFDE0";
-  String sentianceSecret =
-      "a2bc95ee20eacc70fbfb4bb15122356a0fcc11ebec0bfad76dfa6338caf74a7871c7ebe3fb6cb02633905ac61673bace5322f5352da9e24a67f1f51957ba2325"; //constant
-  String appId = "5faaa10ea972a10600000027"; // constant
-  String userLinkUrl =
-      "https://devmobileapi.safetyconnect.io/user/link"; // constant
+      "";
+  String sentianceSecret = ""; //constant
+  String appId = ""; // constant
+  String userLinkUrl = ""; // constant
   String cashDetectionUrl = "";
-  String mobileHealthUrl =
-      "https://devmobileapi.safetyconnect.io/me/mobilehealth"; //constant
+  String mobileHealthUrl = ""; //constant
 
   // used for the payment option
   Widget _getPaymentMethodOption(

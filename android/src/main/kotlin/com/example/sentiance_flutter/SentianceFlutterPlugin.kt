@@ -85,12 +85,10 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 cache.setMobileHealthUrl(data1["mobile_health_url"].toString())
                 cache.setCrashDetectionUrl(data1["crash_detection_url"].toString())
                 SentianceWrapper(context).initializeSentianceSdk()
-               SentianceWrapper(context).getStatus(result)
+                SentianceWrapper(context).getStatus(result)
                 result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
             }
-            //else{
-             //   Log.d(TAG, "All the FIelds are required")
-           // }
+          
 
         } else if (call.method == "getSentianceData") {
             if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {

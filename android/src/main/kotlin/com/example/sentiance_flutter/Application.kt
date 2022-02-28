@@ -17,8 +17,6 @@ class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallbac
     }
 
     override fun registerWith(registry: PluginRegistry?) {
-//        if (!registry!!.hasPlugin("io.flutter.plugins.pathprovider")) {
-//            PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider"))
-//        }
+
     }
 }

@@ -245,11 +245,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
 
     private Notification createNotification () {
-        // PendingIntent that will start your application's MainActivity
-//        Intent intent = new Intent(mContext, SentianceFlutterPlugin.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
-        // On Oreo and above, you must create a notification channel
         String channelId = "trips";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, "Trips", NotificationManager.IMPORTANCE_MIN);
