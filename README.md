@@ -24,6 +24,9 @@ This is package is only for Android.
       - [Get the Mobile Health Data](#get-the-mobile-health-data)
       - [Stop Sentiance](#stop-sentiance)
 
+
+[<img src="./example/lib/assets/screenshot.png" width="200"/>](https://sentiance.com/)
+
 ## Getting Started
 
 This flutter plugin is a wrapper around our Android SDKs.
@@ -42,6 +45,15 @@ The following documentation is only focused on the wrapper around our native And
  
 
 ## Installation
+
+Fork the repository from url
+
+Go to android/src/res/AndroidManifest.xml and your Geo Location API KEY
+
+      <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value= "GOOGLE_API_KEY"/>
+
 
 This plugin is available on Pub: [https://pub.dev/packages/sentiance_flutter](https://pub.dev/packages/sentiance_flutter)
 
