@@ -12,7 +12,6 @@ class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallbac
         FlutterMain.startInitialization(this)
         SentianceWrapper(this).initializeSentianceSdk()
         MultiDex.install(this)
-       // SentianceWrapper(this).initializeSentianceSdk()
         android.util.Log.e("TAG", "onCreate:initt " )
     }
 
