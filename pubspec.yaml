@@ -1,7 +1,7 @@
 name: sentiance_flutter
-description: A new flutter plugin project.
+description: Flutter plugin for Sentiance
 version: 0.0.1
-homepage: www.tanmoykarmakar.in
+homepage: www.sentiance.com
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
