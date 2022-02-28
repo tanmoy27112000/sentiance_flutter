@@ -24,16 +24,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   String token = // we get the token from the app
-      "token";
-  String sentianceSecret = "sentianceSecret"; //constant
-  String appId = "appId"; // constant
-  String userLinkUrl = "userLinkUrl"; // constant
-  String cashDetectionUrl = "crashDetectionUrl";
-  String mobileHealthUrl = "mobileHealthUrl"; //constant
-  String customerId = "customerId";
-  String userId = "userId";
+      "TOKEN";
+  String sentianceSecret = "SECRET"; //constant
+  String appId = "APPLICATION ID"; // constant
+  String userLinkUrl = "USER LINKING URL"; // constant
+  String crashDetectionUrl = "CRASH DETECTION URL"; // constant
+  String mobileHealthUrl = "MOBILE HEALTH URL"; //constant
 
-  // used for the payment optionu=
+  // used for the payment option
   Widget _getPaymentMethodOption(
     BuildContext context,
   ) {
@@ -50,10 +48,8 @@ class _MyAppState extends State<MyApp> {
                     sentianceSecret: sentianceSecret,
                     appId: appId,
                     userLinkUrl: userLinkUrl,
-                    crashDetectionUrl: cashDetectionUrl,
-                    mobileHealthUrl: mobileHealthUrl,
-                    customerId: customerId,
-                    userId: userId);
+                    crashDetectionUrl: crashDetectionUrl,
+                    mobileHealthUrl: mobileHealthUrl);
               },
               child: const Text(
                 "Initialise SDK",
