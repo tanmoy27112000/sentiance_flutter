@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:sentiance_flutter/models/mobile_health_data.dart';
 
+export 'package:sentiance_flutter/models/mobile_health_data.dart';
+
 class SentianceFlutter {
   static Map getCredentails(token, sentianceSecret, appId, userLinkUrl,
       crashDetectionUrl, mobileHealthUrl) {
@@ -43,8 +45,14 @@ class SentianceFlutter {
       userLinkUrl,
       crashDetectionUrl,
       mobileHealthUrl}) async {
-    var credentials = getCredentails(token, sentianceSecret, appId, userLinkUrl,
-        crashDetectionUrl, mobileHealthUrl);
+    var credentials = getCredentails(
+      token,
+      sentianceSecret,
+      appId,
+      userLinkUrl,
+      crashDetectionUrl,
+      mobileHealthUrl,
+    );
     var initSentiance =
         await _channel.invokeMethod('intialiseSdk', credentials);
     return initSentiance;
