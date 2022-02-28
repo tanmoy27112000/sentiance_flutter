@@ -9,8 +9,6 @@ Flutter plugin for generating Mobile Health Status.
 
 This is package is only for Android.
 
-[![pub package](https://img.shields.io/pub/v/razorpay_flutter.svg)](https://pub.dartlang.org/packages/razorpay_flutter)
-
 
 - [Sentiance SDK Flutter](#sentiance-sdk-flutter)
 - [Disclaimer](#disclaimer)
@@ -60,7 +58,9 @@ This plugin is available on Pub: [https://pub.dev/packages/sentiance_flutter](ht
 Add this to `dependencies` in your app's `pubspec.yaml`
 
 ```yaml
-sentiance_flutter: ^0.0.1
+sentiance_flutter:
+      git: <Package url>
+      branch: master
 ```
 
 **Note for Android**: Make sure that the minimum API level for your app is 19 or higher.

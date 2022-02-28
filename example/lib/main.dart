@@ -24,12 +24,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   String token = // we get the token from the app
-      "";
-  String sentianceSecret = ""; //constant
-  String appId = ""; // constant
-  String userLinkUrl = ""; // constant
-  String cashDetectionUrl = "";
-  String mobileHealthUrl = ""; //constant
+      "TOKEN";
+  String sentianceSecret = "SECRET"; //constant
+  String appId = "APPLICATION ID"; // constant
+  String userLinkUrl = "USER LINKING URL"; // constant
+  String crashDetectionUrl = "CRASH DETECTION URL"; // constant
+  String mobileHealthUrl = "MOBILE HEALTH URL"; //constant
 
   // used for the payment option
   Widget _getPaymentMethodOption(
@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
                     sentianceSecret: sentianceSecret,
                     appId: appId,
                     userLinkUrl: userLinkUrl,
-                    crashDetectionUrl: cashDetectionUrl,
+                    crashDetectionUrl: crashDetectionUrl,
                     mobileHealthUrl: mobileHealthUrl);
               },
               child: const Text(
