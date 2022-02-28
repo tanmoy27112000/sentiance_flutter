@@ -64,7 +64,8 @@ class _MyAppState extends State<MyApp> {
               )),
           ElevatedButton(
               onPressed: () async {
-                var data = await SentianceFlutter.getMobileHealthData;
+                MobileHealthData data =
+                    await SentianceFlutter.getMobileHealthData;
                 if (kDebugMode) {
                   print(data.androidsdkVersion);
                 }
