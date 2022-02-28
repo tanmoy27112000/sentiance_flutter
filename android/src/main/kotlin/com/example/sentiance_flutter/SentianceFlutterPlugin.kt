@@ -88,6 +88,9 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                SentianceWrapper(context).getStatus(result)
                 result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
             }
+            //else{
+             //   Log.d(TAG, "All the FIelds are required")
+           // }
 
         } else if (call.method == "getSentianceData") {
             if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
@@ -119,10 +122,6 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
            val cache = Cache(activity)
            var data = cache.getMobileHealthData();
-
-          // var jsonObject = JSONObject(data);
-
-        //  HashMap<String, Object> mobileHealthDataHashMap = new Gson().fromJson(jsonObject, HashMap.class);
            
             result.success(data);
           } else {

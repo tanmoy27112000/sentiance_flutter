@@ -19,6 +19,8 @@ class SentianceFlutter {
     };
   }
 
+  // linking user with sentiance id then sdk is initialized
+
   static const MethodChannel _channel = MethodChannel('sentiance_flutter');
   static const MethodChannel _channel1 =
       MethodChannel('flutter.sentiance/helper');
@@ -28,13 +30,19 @@ class SentianceFlutter {
     return version;
   }
 
+  // enable the location and physical activity
   static Future<dynamic> enableLocation(Map<dynamic, dynamic> data) async {
     var initSentiance = await _channel.invokeMethod('enableLocation');
     return initSentiance;
   }
 
-  static initialiseSentiance(String token, String sentianceSecret, appId,
-      userLinkUrl, crashDetectionUrl, mobileHealthUrl) async {
+  static initialiseSentiance(
+      {required String token,
+      required String sentianceSecret,
+      appId,
+      userLinkUrl,
+      crashDetectionUrl,
+      mobileHealthUrl}) async {
     var credentials = getCredentails(token, sentianceSecret, appId, userLinkUrl,
         crashDetectionUrl, mobileHealthUrl);
     var initSentiance =
@@ -42,21 +50,25 @@ class SentianceFlutter {
     return initSentiance;
   }
 
+  // get the sentiance data
   static Future<dynamic> get getSentianceData async {
     var sentianceData = await _channel.invokeMethod('getSentianceData');
     return sentianceData;
   }
 
+  // start the sentiance sdk
   static Future<dynamic> get startSentianceSDK async {
     var startSentiance = await _channel.invokeMethod('startSdk');
     return startSentiance;
   }
 
+  // stop the sentiance sdk
   static Future<String?> get stopSentianceSDK async {
     var stopSentiance = await _channel.invokeMethod('stopSdk');
     return stopSentiance;
   }
 
+  // get the status of the sdk
   static Future<dynamic> get getSentianceStatus async {
     var sentianceStatus = await _channel.invokeMethod('statusSdk');
     return sentianceStatus;
@@ -67,6 +79,7 @@ class SentianceFlutter {
     return sentianceStatus;
   }
 
+  // get the health information about the device
   static Future<MobileHealthData> get getMobileHealthData async {
     var sentianceMobileHealthData =
         await _channel.invokeMethod('getMobileHealthData');
