@@ -86,12 +86,12 @@ class _MyAppState extends State<MyApp> {
                   {
                     "data": {
                       "sentiance_secret":
-                      "a2bc95ee20eacc70fbfb4bb15122356a0fcc11ebec0bfad76dfa6338caf74a7871c7ebe3fb6cb02633905ac61673bace5322f5352da9e24a67f1f51957ba2325",
-                      "app_id": "5faaa10ea972a10600000027",
+                      "",
+                      "app_id": "",
                       "user_link_url":
-                      "https://devmobileapi.safetyconnect.io/user/link",
-                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjliOWI5OTc4LWQxNjEtNDNmNy1hOTU0LWU4OTMyY2I2ZGUzZSIsImlhdCI6MTYzOTczNjEzNn0.vXgqIKHZ3DWv89cC2xSqStVpd1icb5Zdc1lbMsk3DE8",
-                      "email": "tanmoykarmakar@gytworkz.com"
+                      "",
+                      "token": "",
+                      "email": ""
                     }
                   },
                 );
