@@ -28,8 +28,9 @@
         tools:ignore="AllowBackup">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value= "AIzaSyCxO3dtCSAQsNowpFMsjVyQnh7yOHBxNq0"/>
-        <!--             "AIzaSyC7UxCG_GhXVvSJOMnKYfQWM_xeK9FhSaw"/>-->
+            android:value= "GEO_API_KEY"/>
+        <!--             ""/>-->
+        <!--             ""/>-->
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:launchMode="singleTop"
