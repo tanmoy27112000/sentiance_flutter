@@ -28,7 +28,7 @@
         tools:ignore="AllowBackup">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value= "AIzaSyC7UxCG_GhXVvSJOMnKYfQWM_xeK9FhSaw"/>
+            android:value= "AIzaSyCxO3dtCSAQsNowpFMsjVyQnh7yOHBxNq0"/>
         <!--             ""/>-->
         <!--             ""/>-->
         <activity
