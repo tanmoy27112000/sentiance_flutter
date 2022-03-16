@@ -86,8 +86,6 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 cache.setCrashDetectionUrl(data1["crash_detection_url"].toString())
                 cache.setUserId(data1["user_id"].toString())
                 cache.setCustomerId(data1["customer_id"].toString())
-                 Log.e("CustomerId", data1["customer_id"].toString())
-                 Log.e("UserId", data1["user_id"].toString())
                 SentianceWrapper(context).initializeSentianceSdk()
                 SentianceWrapper(context).getStatus(result)
                 result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
