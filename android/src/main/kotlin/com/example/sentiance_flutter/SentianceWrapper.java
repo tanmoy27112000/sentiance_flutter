@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
-
+import android.location.Location;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -175,6 +175,11 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         // (specifically MainActivity) can react on this.
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_SDK_STATUS_UPDATED));
         updateToServer(sdkStatus);
+        //onVehicleCrash();
+
+       // Log.e("isVechileCrashDetectionSupported", Sentiance.getInstance(context).isVehicleCrashDetectionSupported(TripType.SDK_TRIP));
+
+       // Sentiance.getInstance(context).isVehicleCrashDetectionSupported(TripType.SDK_TRIP);
     }
 
     private void updateToServer(SdkStatus sdkStatus) {
@@ -353,6 +358,9 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
     @Override
     public void onVehicleCrash(VehicleCrashEvent crashEvent) {
-        Log.e(TAG, mCache.getCrashDetectionUrl());
+        Log.e("VechileCrash", mCache.getCrashDetectionUrl());
+     //   long epochTimeMs = crashEvent.getTime();
+    Location location = crashEvent.getLocation();
+        
     }
 }
