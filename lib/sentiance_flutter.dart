@@ -8,7 +8,7 @@ export 'package:sentiance_flutter/models/mobile_health_data.dart';
 
 class SentianceFlutter {
   static Map getCredentails(token, sentianceSecret, appId, userLinkUrl,
-      crashDetectionUrl, mobileHealthUrl) {
+      crashDetectionUrl, mobileHealthUrl, customerId, userId) {
     return {
       "data": {
         "token": token,
@@ -16,7 +16,9 @@ class SentianceFlutter {
         "app_id": appId,
         "user_link_url": userLinkUrl,
         "crash_detection_url": crashDetectionUrl,
-        "mobile_health_url": mobileHealthUrl
+        "mobile_health_url": mobileHealthUrl,
+        "customer_id": customerId,
+        "user_id": userId
       }
     };
   }
@@ -44,15 +46,11 @@ class SentianceFlutter {
       appId,
       userLinkUrl,
       crashDetectionUrl,
-      mobileHealthUrl}) async {
-    var credentials = getCredentails(
-      token,
-      sentianceSecret,
-      appId,
-      userLinkUrl,
-      crashDetectionUrl,
       mobileHealthUrl,
-    );
+      customerId,
+      userId}) async {
+    var credentials = getCredentails(token, sentianceSecret, appId, userLinkUrl,
+        crashDetectionUrl, mobileHealthUrl, customerId, userId);
     var initSentiance =
         await _channel.invokeMethod('intialiseSdk', credentials);
     return initSentiance;

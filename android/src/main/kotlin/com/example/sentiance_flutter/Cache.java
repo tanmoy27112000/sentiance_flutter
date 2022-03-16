@@ -16,6 +16,8 @@ class Cache {
     private static final String KEY_CRASH_DETECTION_URL = "crash_detection_url";
     private static final String KEY_USER_INSTALL_ID = "user_install_id";
     private static final String KEY_USER_MOBILE_HEALTH_DATA ="mobile_health_data";
+    private static final String KEY_CUSTOMER_ID = "customer_id";
+    private static final String KEY_USER_ID ="user_id";
 
     private Context mContext;
 
@@ -123,6 +125,27 @@ class Cache {
     {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USER_MOBILE_HEALTH_DATA, null);
+    }
+    
+    void setCustomerId(String customerId)
+    {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_CUSTOMER_ID, customerId).apply(); 
+    }
+    String getCustomerId()
+    {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_CUSTOMER_ID, null);
+    }
+    void setUserId(String customerId)
+    {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(KEY_CUSTOMER_ID, customerId).apply(); 
+    }
+    String getUserId()
+    {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_CUSTOMER_ID, null);
     }
 }
 
