@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       "https://devmobileapi.safetyconnect.io/user/link"; // constant
   String cashDetectionUrl = "https://devmobileapi.safetyconnect.io/crash";
   String mobileHealthUrl =
-      "https://devmobileapi.safetyconnect.io/user/link"; //constant
+      "https://devmobileapi.safetyconnect.io/me/mobilehealth"; //constant
   String customerId = "f87accfa-8dd5-4ee1-bf63-8f643b0dbb46";
   String userId = "7d34e85c-5aad-4022-8b47-2216224c97e7";
 
