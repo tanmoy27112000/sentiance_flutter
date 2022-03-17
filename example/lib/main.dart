@@ -24,19 +24,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   String token = // we get the token from the app
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg1YzI4ZGRjLTQzYjEtNDUyYi05NzYyLTU4NDc1ZWI5ZGFjNSIsImlhdCI6MTY0NzQwODAxOX0.1S8fMXC0va6h0rE6uFnmeWBjW0ejyoh06QskyEBHNns";
-  String sentianceSecret =
-      "a2bc95ee20eacc70fbfb4bb15122356a0fcc11ebec0bfad76dfa6338caf74a7871c7ebe3fb6cb02633905ac61673bace5322f5352da9e24a67f1f51957ba2325"; //constant
-  String appId = "5faaa10ea972a10600000027"; // constant
-  String userLinkUrl =
-      "https://devmobileapi.safetyconnect.io/user/link"; // constant
-  String cashDetectionUrl = "https://devmobileapi.safetyconnect.io/crash";
-  String mobileHealthUrl =
-      "https://devmobileapi.safetyconnect.io/me/mobilehealth"; //constant
-  String customerId = "f87accfa-8dd5-4ee1-bf63-8f643b0dbb46";
-  String userId = "7d34e85c-5aad-4022-8b47-2216224c97e7";
+      "token";
+  String sentianceSecret = "sentianceSecret"; //constant
+  String appId = "appId"; // constant
+  String userLinkUrl = "userLinkUrl"; // constant
+  String cashDetectionUrl = "crashDetectionUrl";
+  String mobileHealthUrl = "mobileHealthUrl"; //constant
+  String customerId = "customerId";
+  String userId = "userId";
 
-  // used for the payment option
+  // used for the payment optionu=
   Widget _getPaymentMethodOption(
     BuildContext context,
   ) {
