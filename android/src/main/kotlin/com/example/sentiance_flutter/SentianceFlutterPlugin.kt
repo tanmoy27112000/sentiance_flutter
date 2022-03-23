@@ -5,6 +5,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
+
+import org.json.JSONObject;
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Build
@@ -13,7 +15,6 @@ import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
 import com.example.sentiance_flutter.sentiance.PermissionCheckActivity
 import com.example.sentiance_flutter.sentiance.PermissionManager
-import com.example.sentiance_flutter.model.SentianceDataStatus
 import com.sentiance.sdk.*
 import io.flutter.embedding.android.FlutterActivity
 
@@ -54,6 +55,7 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             channel.setMethodCallHandler(SentianceFlutterPlugin())
         }
     }
+ 
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         if (call.method == "enableLocation") {
@@ -82,10 +84,13 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 cache.setKeyUserLinkUrl(data1["user_link_url"].toString())
                 cache.setMobileHealthUrl(data1["mobile_health_url"].toString())
                 cache.setCrashDetectionUrl(data1["crash_detection_url"].toString())
+                cache.setUserId(data1["user_id"].toString())
+                cache.setCustomerId(data1["customer_id"].toString())
                 SentianceWrapper(context).initializeSentianceSdk()
                 SentianceWrapper(context).getStatus(result)
                 result.success(Sentiance.getInstance(context).sdkStatus.startStatus.name)
             }
+          
 
         } else if (call.method == "getSentianceData") {
             if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
@@ -110,7 +115,20 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.success("NOT_INITIALIZED");
             }
 
-        } else {
+        }
+        else if(call.method == "getMobileHealthData")
+        {
+          if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
+
+           val cache = Cache(activity)
+           var data = cache.getMobileHealthData();
+           
+            result.success(data);
+          } else {
+              result.success("NOT_INITIALIZED")
+          }
+        }
+        else {
             result.notImplemented()
         }
 
@@ -173,26 +191,11 @@ class SentianceFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-//    (binding.lifecycle as HiddenLifecycleReference)
-//      .lifecycle
-//      .addObserver(LifecycleEventObserver { source, event ->
-//        Log.e("Activity state: ", event.toString())
-//       // updateActivityState(event.toString());
-//      })
         this.activity = binding.activity
 
     }
 
-//  private fun updateActivityState(event: String) {
-//    when (event) {
-//      "ON_RESUME" ->   //Log.e("Activity state: resume")  //LocalBroadcastManager.getInstance(context).registerReceiver(statusUpdateReceiver, IntentFilter(SdkStatusUpdateHandler.ACTION_SENTIANCE_STATUS_UPDATE))
-//
-//      "ON_PAUSE" ->      Log.e("Activity state: pause")//LocalBroadcastManager.getInstance(context).unregisterReceiver(statusUpdateReceiver)
-//
-//
-//      else -> Log.e("TAG", "updateActivityState:  default" )
-//    }
-//  }
 
     override fun onDetachedFromActivityForConfigChanges() {}
 }
+

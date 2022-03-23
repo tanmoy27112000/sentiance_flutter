@@ -27,6 +27,7 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/sentiance_flutter/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/sentiance_flutter/.dart_tool" />
     </content>
+    <orderEntry type="jdk" jdkName="openjdk-17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
     <orderEntry type="library" name="Flutter Plugins" level="project" />

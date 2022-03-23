@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sentiance_flutter/sentiance_flutter.dart';
 
-//! 1. make a model that needs to be sent to the sentiance
-//! 2. health packet
 void main() {
   runApp(const MyApp());
 }
@@ -16,102 +14,79 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var isLocationEnabled = false;
-
-  @override
-  void initState() {
-    super.initState();
-     _getSentianceData();
-  }
-
-  _getSentianceData() async {
-    var data = await SentianceFlutter.getSentianceData;
-    print("got data in app"+data);
-    if(data =="STARTED"){
-      setState(() {
-        isLocationEnabled = true;
-      });
-    }else{
-      setState(() {
-        isLocationEnabled = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _getPaymentMethodOption(context, "Enable Permissions"),
-          ],
-        ),
+        body: _getPaymentMethodOption(context),
       ),
     );
   }
 
+  String token = // we get the token from the app
+      "TOKEN";
+  String sentianceSecret = "SECRET"; //constant
+  String appId = "APPLICATION ID"; // constant
+  String userLinkUrl = "USER LINKING URL"; // constant
+  String crashDetectionUrl = "CRASH DETECTION URL"; // constant
+  String mobileHealthUrl = "MOBILE HEALTH URL"; //constant
+
   // used for the payment option
   Widget _getPaymentMethodOption(
     BuildContext context,
-    String paymentName,
   ) {
-    return Column(
-      children: [
-        ListTile(
-          title: const Text(
-            "enable location",
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          trailing: CupertinoSwitch(
-            trackColor: Colors.grey[300], // **INACTIVE STATE COLOR**
-            activeColor: Colors.black, // **ACTIVE STATE COLOR**
-            value: isLocationEnabled,
-            onChanged: (bool value) async {
-              if (isLocationEnabled == true) {
-                setState(() {
-                  isLocationEnabled = value;
-                });
-              } else {
-                setState(() {
-                  isLocationEnabled = true;
-                });
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              onPressed: () async {
                 await SentianceFlutter.initialiseSentiance(
-                  {
-                    "data": {
-                      "token": "",
-                      "sentiance_secret" :"",
-                  //: "3831007f47033a9c9a90ffa415da1465130e3cec6d974f17fe16e0c6229a00398173509b41c78b4e290323c4cfc415029ed1abbcca1dc70fc58a8ce0a874ef4b",
-                  "app_id": "",
-                  "user_link_url":
-                  "",
-                  "email": ""
-
-                    }
-                  },
-                );
-              }
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Divider(
-            color: Colors.blue[500],
-            height: 4,
-          ),
-        )
-      ],
+                    token: token,
+                    sentianceSecret: sentianceSecret,
+                    appId: appId,
+                    userLinkUrl: userLinkUrl,
+                    crashDetectionUrl: crashDetectionUrl,
+                    mobileHealthUrl: mobileHealthUrl);
+              },
+              child: const Text(
+                "Initialise SDK",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          ElevatedButton(
+              onPressed: () async {
+                MobileHealthData data =
+                    await SentianceFlutter.getMobileHealthData;
+                if (kDebugMode) {
+                  print(data.androidsdkVersion);
+                }
+              },
+              child: const Text("Get Mobile Health Data",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ))),
+          ElevatedButton(
+              onPressed: () async {
+                await SentianceFlutter.stopSentianceSDK;
+              },
+              child: const Text(
+                "Stop SDK",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ],
+      ),
     );
   }
 }
-
-
-//devSecret:""
-//prodSreSecret:""

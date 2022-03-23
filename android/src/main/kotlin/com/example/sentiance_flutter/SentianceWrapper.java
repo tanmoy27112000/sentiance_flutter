@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
-
+import android.location.Location;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -46,7 +46,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler, VehicleCrashListener {
+public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandler, OnInitCallback, OnStartFinishedHandler {
 
     private static final String TAG = "SentianceWrapper";
     public static final String ACTION_SDK_STATUS_UPDATED = "com.sentiance.ACTION_SDK_STATUS_UPDATED";
@@ -134,6 +134,10 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         // Sentiance SDK was successfully initialized, we can now start it.
 
         Sentiance.getInstance(mContext).start(this);
+        // initialze crash Detection
+
+        
+        initializeCrashDetection();
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_INIT_SUCCEEDED));
     }
 
@@ -175,6 +179,69 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         // (specifically MainActivity) can react on this.
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_SDK_STATUS_UPDATED));
         updateToServer(sdkStatus);
+       
+       // Sentiance.getInstance(mContext).invokeDummyVehicleCrash();
+   
+       }
+
+    private void initializeCrashDetection()
+    {
+        Sentiance.getInstance(mContext).setVehicleCrashListener(new VehicleCrashListener() {
+            @Override
+            public void onVehicleCrash(VehicleCrashEvent crashEvent) {
+               
+               Location location = crashEvent.getLocation();
+               String time = convertEpocTODateTime(crashEvent.getTime());
+               String lat = String.valueOf(location.getLatitude());
+               String lon = String.valueOf(location.getLongitude());
+               saveCrashDetectionData(time,lat,lon);
+
+            }
+        });
+
+    }
+
+    private void saveCrashDetectionData(String time,String lat, String lon)
+    {
+
+        OkHttpClient client = new OkHttpClient();
+
+     
+        String jsonBody = "{\"userId\":\""+mCache.getUserId()+"\",\"customerId\":\""+mCache.getCustomerId()+"\",\"location\":{\"lat\":\""+lat+"\",\"lng\":\""+lon+"\"},\"time\":\""+time+"\"}";
+        Log.e("Crash Detection Json", jsonBody);
+
+        
+
+        Request request1 = new Request.Builder()
+                .url(mCache.getCrashDetectionUrl())
+                .header("Authorization", getAuthHeader())
+                .put(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+                .build();
+
+
+        client.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, e.toString());
+                Log.e("CrashDetection","Failed");
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.w(TAG, response.body().string());
+                
+                Log.e("CrashDetection","Success");
+            }
+
+        });
+    }
+
+
+    private String convertEpocTODateTime(long time)
+    {
+        String date = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (time));
+        return date;
     }
 
     private void updateToServer(SdkStatus sdkStatus) {
@@ -237,6 +304,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
             public void onResponse(Call call, Response response) throws IOException {
                 UserLinkStatus = "User linking Success";
                 Log.e("updated mobile api", response.body().string());
+                mCache.setMobileHealthData(jsonObject);
             }
         });
 
@@ -244,11 +312,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
 
 
     private Notification createNotification () {
-        // PendingIntent that will start your application's MainActivity
-//        Intent intent = new Intent(mContext, SentianceFlutterPlugin.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
-        // On Oreo and above, you must create a notification channel
         String channelId = "trips";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, "Trips", NotificationManager.IMPORTANCE_MIN);
@@ -260,9 +324,7 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         return new NotificationCompat.Builder(mContext, channelId)
                 .setContentTitle("Safetyconnect" + " is running")
                 .setContentText("Touch to open.")
-               // .setContentIntent(pendingIntent)
                 .setShowWhen(false)
-               // .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .build();
     }
@@ -356,8 +418,5 @@ public class SentianceWrapper implements MetaUserLinker, OnSdkStatusUpdateHandle
         result.success(UserLinkStatus);
     }
 
-    @Override
-    public void onVehicleCrash(VehicleCrashEvent crashEvent) {
-        Log.e(TAG, mCache.getCrashDetectionUrl());
-    }
+
 }

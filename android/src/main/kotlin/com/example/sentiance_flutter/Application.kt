@@ -12,13 +12,10 @@ class Application : FlutterApplication(), PluginRegistry.PluginRegistrantCallbac
         FlutterMain.startInitialization(this)
         SentianceWrapper(this).initializeSentianceSdk()
         MultiDex.install(this)
-       // SentianceWrapper(this).initializeSentianceSdk()
         android.util.Log.e("TAG", "onCreate:initt " )
     }
 
     override fun registerWith(registry: PluginRegistry?) {
-//        if (!registry!!.hasPlugin("io.flutter.plugins.pathprovider")) {
-//            PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider"))
-//        }
+
     }
 }
